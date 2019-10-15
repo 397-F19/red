@@ -19,7 +19,6 @@ const serviceAccount = {
 // firebase initialization
 firebase.initializeApp(serviceAccount);
 var db = firebase.database();
-var ref = db.ref('/data');
 const port = process.env.PORT || 5000;
 const app = express();
 
