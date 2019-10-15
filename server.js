@@ -34,24 +34,72 @@ app.use(bodyParser.json());
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// Creates and stores a new room entry on firebase database. returns room_code
-// to front-end to share with other users
+// create a new user with username, no password needed at this time
+app.post('/create/user', async (req, res) => {
+	try {
+		const { username } = req.body;
+		let postData = {
+			[username]: {
+				events: {
+					placeholder: 0
+				}
+			}
+		};
+		var ref = db.ref('/data/users');
+		await ref.update(postData);
+		res.send('success');
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
+
+// to front-end
 app.post('/create/event', async (req, res) => {
 	try {
 		const { location, title, time, attendees, desc, username } = req.body;
-
-		let postData = {
+		let eventID = makeid();
+		const eventsRef = db.ref('/data/events');
+		const userRef = db.ref(`/data/users/${username}/events`);
+		var eventsSnapshot = await userRef.once('value');
+		var eventsData = eventsSnapshot.val();
+		eventsData[eventID] = {
+			owner: username,
 			title: title,
 			desc: desc,
 			location: location,
 			time: time,
 			attendees: attendees
 		};
+		await userRef.update(eventsData);
+		await eventsRef.update(eventsData);
+		res.send('success');
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
+
+// delete an event
+app.post('/delete/event', async (req, res) => {
+	try {
+		const { username, eventID } = req.body;
 		var ref = db.ref('/data');
 		var updates = {};
-		updates[`/${username}/events`] = postData;
+		updates[`/${username}/events/${eventID}`] = null;
 		await ref.update(updates);
 		res.send('success');
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
+
+// get personal events
+app.get('/events', async (req, res) => {
+	try {
+		const { username } = req.body;
+		const userRef = db.ref(`/data/users/${username}`);
+		var eventsSnapshot = await userRef.once('value');
+		var eventsData = eventsSnapshot.val();
+		res.send(eventsData);
 	} catch (e) {
 		res.sendStatus(400).send(e);
 	}
@@ -67,8 +115,6 @@ function makeid() {
 
 	return text;
 }
-
-app.post('/create/user', async (req, res) => {});
 
 // A function to wait X amount of time before returning a resolved promise
 // with value boolean true
