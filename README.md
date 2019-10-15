@@ -1,4 +1,4 @@
-# red
+# Team red: MeetMe
 Team Red Repo
 
 In the project directory, you can run:
