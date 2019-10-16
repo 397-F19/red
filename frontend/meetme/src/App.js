@@ -5,12 +5,34 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-var Monday = [{
+var Monday = [
+  {
   time: '09:30 - 10:00',
   name: 'Breakfast',
   people: ['Aaron Kaneti', 'Bradley Ramos'],
   location: 'home',
   description: '',
+  },
+  {
+    time: '20:30 - 22:00',
+    name: 'Dinner',
+    people: ['Terry Tan', 'Amulya A'],
+    location: 'diner',
+    description: '',
+  },
+  {
+    time: '21:30 - 22:00',
+    name: 'Birthday Planning',
+    people: ['Bradley Ramos', 'Danyil Pysmak'],
+    location: 'home',
+    description: '',
+  },];
+var Tuesday = [{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
 }
   ,];
 var bringMonday = function Monday()
@@ -21,10 +43,7 @@ function Event(time, name, people, location, desc)
 {
   var event = {time: time, name: name, people: people, location: location, description: desc};
 }
-// var Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday = [];
-var chem = new Event('11:00 - 11:50', "Chem", 'Aaron Kaneti', 'Tech', 'no desc');
-var Tuesday = [];
-Tuesday.push(chem);
+
 var bringTuesday = function Tuesday(){
   return Tuesday;
 }
@@ -38,26 +57,41 @@ class App extends React.Component {
     super(props);
     this.state = {
       dropDownValue: 'Pick a day',
+      pickedDay: Monday,
     }
   }
   changeValue(text) {
+    if (this.state.dropDownValue == 'Monday' || this.state.dropDownValue == 'Pick a day') {
+      this.setState({ pickedDay: Monday });
+    }
+    else if (this.state.dropDownValue == 'Tuesday') {
+      this.setState({ pickedDay: Tuesday });
+    }
     this.setState({dropDownValue: text})
   }
   render()
   {
       return (
       <div className="App">
-        <p>Danyil is very nice.</p>
-
           <DropdownButton title={this.state.dropDownValue}>
             {week.map((day) => {
               return <Dropdown.Item as="button" key={day} value={day}><div onClick={(e) => this.changeValue(e.target.textContent)}>{(day.name)}</div></Dropdown.Item>;
             })}
           </DropdownButton>
             <ListGroup>
-            {Monday.map((e) => {
-              return <div><ListGroup.Item>Event Name: {e.name}</ListGroup.Item>
-              <ListGroup.Item>Event Time: {e.time}</ListGroup.Item></div>;
+            {this.state.pickedDay.map((e) => {
+              console.log();
+              return <ListGroup.Item>
+                <div className = "event-border">
+                  <ul style={{listStyleType: "none",}}> 
+                    <li>{e.name}</li>
+                    <li>{e.time}</li>
+                    <li>{e.location}</li>
+                    <li>{e.people.map((person) =>{return `${person}, `})}</li>
+                    <li>{e.description}</li>
+                  </ul>
+                </div>
+                </ListGroup.Item>;
             })}
             </ListGroup>
       </div>
