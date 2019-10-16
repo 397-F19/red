@@ -156,12 +156,10 @@ class App extends React.Component {
     this.state = {
       dropDownValue: 'Pick a day',
       pickedDay: Monday,
-      bgColor: 'navyblue',
     }
     this.acceptEvent = this.acceptEvent.bind(this);
   }
   componentDidMount(){
-    console.log(eventA.fJGVqvQ.attendees);
   }
   changeValue(text) {
     if (this.state.dropDownValue === 'Monday' || this.state.dropDownValue === 'Pick a day') {
@@ -188,9 +186,16 @@ class App extends React.Component {
     this.setState({dropDownValue: text})
   }
   acceptEvent(){
-    this.setState(prevState => ({
-      bgColor: 'lightgray',
-    }));
+    if(this.state.bgColor === 'lightgray'){
+      this.setState({
+        bgColor: '#007BFF',
+      });
+    }
+    else{
+      this.setState({
+        bgColor: 'lightgray',
+      });
+    }
   }
   render()
   {
@@ -209,7 +214,7 @@ class App extends React.Component {
           <div className ='days'>
             <DropdownButton title={this.state.dropDownValue}>
               {week.map((day) => {
-                return <Dropdown.Item as="button" key={day} value={day}><div onClick={(e) => this.changeValue(e.target.textContent)}>{(day.name)}</div></Dropdown.Item>;
+                return <Dropdown.Item as="button" key={day}><div onClick={(e) => this.changeValue(e.target.textContent)}>{(day.name)}</div></Dropdown.Item>;
               })}
             </DropdownButton>
           </div>
