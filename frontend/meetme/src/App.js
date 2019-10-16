@@ -43,6 +43,81 @@ var Tuesday = [{
     description: 'gen lec',
   },
 ];
+var Wednesday = [{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+];
+var Thursday = [{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+];
+var Friday = [{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+];
+var Saturday = [{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+];
+var Sunday = [{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+{
+  time: '11:00 - 11:50',
+  name: 'Chem',
+  people: ['Aaron Kaneti', 'Danyil Pysmak'],
+  location: 'Tech',
+  description: 'gen lec',
+},
+];
 var bringMonday = function Monday()
  {
    return Monday;
@@ -55,9 +130,23 @@ function Event(time, name, people, location, desc)
 var bringTuesday = function Tuesday(){
   return Tuesday;
 }
-
+var bringWednesday = function Wednesday(){
+  return Wednesday;
+}
+var bringThursday = function Thursday() {
+  return Thursday;
+}
+var bringFriday = function Friday() {
+  return Friday;
+}
+var bringSaturday = function Saturday() {
+  return Saturday;
+}
+var bringSunday = function Sunday() {
+  return Sunday;
+}
 // var week = ["Monday", "Tuesday", 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-var week = [bringMonday(), bringTuesday()];
+var week = [bringMonday(), bringTuesday(), bringWednesday(), bringThursday(), bringFriday(), bringSaturday(), bringSunday()];
 
 
 class App extends React.Component {
@@ -70,11 +159,14 @@ class App extends React.Component {
     }
     this.acceptEvent = this.acceptEvent.bind(this);
   }
+  componentDidMount(){
+
+  }
   changeValue(text) {
-    if (this.state.dropDownValue == 'Monday' || this.state.dropDownValue == 'Pick a day') {
+    if (this.state.dropDownValue === 'Monday' || this.state.dropDownValue === 'Pick a day') {
       this.setState({ pickedDay: Monday });
     }
-    else if (this.state.dropDownValue == 'Tuesday') {
+    else if (this.state.dropDownValue === 'Tuesday') {
       this.setState({ pickedDay: Tuesday });
     }
     this.setState({dropDownValue: text})
