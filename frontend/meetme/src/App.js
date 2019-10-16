@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import eventA from './test.json';
 
 var Monday = [
   {
@@ -155,12 +156,10 @@ class App extends React.Component {
     this.state = {
       dropDownValue: 'Pick a day',
       pickedDay: Monday,
-      bgColor: 'navyblue',
     }
     this.acceptEvent = this.acceptEvent.bind(this);
   }
   componentDidMount(){
-
   }
   changeValue(text) {
     if (this.state.dropDownValue === 'Monday' || this.state.dropDownValue === 'Pick a day') {
@@ -169,12 +168,34 @@ class App extends React.Component {
     else if (this.state.dropDownValue === 'Tuesday') {
       this.setState({ pickedDay: Tuesday });
     }
+    else if (this.state.dropDownValue === 'Wednesday') {
+      this.setState({ pickedDay: Wednesday });
+    }
+    else if (this.state.dropDownValue === 'Thursday') {
+      this.setState({ pickedDay: Thursday });
+    }
+    else if (this.state.dropDownValue === 'Friday') {
+      this.setState({ pickedDay: Friday });
+    }
+    else if (this.state.dropDownValue === 'Saturday') {
+      this.setState({ pickedDay: Saturday });
+    }
+    else if (this.state.dropDownValue === 'Sunday') {
+      this.setState({ pickedDay: Sunday });
+    }
     this.setState({dropDownValue: text})
   }
   acceptEvent(){
-    this.setState(prevState => ({
-      bgColor: 'lightgray',
-    }));
+    if(this.state.bgColor === 'lightgray'){
+      this.setState({
+        bgColor: '#007BFF',
+      });
+    }
+    else{
+      this.setState({
+        bgColor: 'lightgray',
+      });
+    }
   }
   render()
   {
@@ -193,7 +214,7 @@ class App extends React.Component {
           <div className ='days'>
             <DropdownButton title={this.state.dropDownValue}>
               {week.map((day) => {
-                return <Dropdown.Item as="button" key={day} value={day}><div onClick={(e) => this.changeValue(e.target.textContent)}>{(day.name)}</div></Dropdown.Item>;
+                return <Dropdown.Item as="button" key={day}><div onClick={(e) => this.changeValue(e.target.textContent)}>{(day.name)}</div></Dropdown.Item>;
               })}
             </DropdownButton>
           </div>
