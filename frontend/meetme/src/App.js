@@ -73,27 +73,40 @@ class App extends React.Component {
   {
       return (
       <div className="App">
-          <DropdownButton title={this.state.dropDownValue}>
-            {week.map((day) => {
-              return <Dropdown.Item as="button" key={day} value={day}><div onClick={(e) => this.changeValue(e.target.textContent)}>{(day.name)}</div></Dropdown.Item>;
-            })}
-          </DropdownButton>
-            <ListGroup>
-            {this.state.pickedDay.map((e) => {
-              console.log();
-              return <ListGroup.Item>
-                <div className = "event-border">
-                  <ul style={{listStyleType: "none",}}> 
-                    <li>{e.name}</li>
-                    <li>{e.time}</li>
-                    <li>{e.location}</li>
-                    <li>{e.people.map((person) =>{return `${person}, `})}</li>
-                    <li>{e.description}</li>
-                  </ul>
-                </div>
-                </ListGroup.Item>;
-            })}
-            </ListGroup>
+        <div className = 'borders-out'>
+          <div className = "top-section">
+            <div style ={{display: 'inline-flex', width: '100%'}}>
+              <h1 style={{width: 150,}}>MeetMe</h1>
+              <div>
+                {/* <p className="title">Conflicts</p> */}
+                <div className = "profile-picture"></div>
+              </div>
+            </div>
+          </div>
+          <div className ='days'>
+            <DropdownButton title={this.state.dropDownValue}>
+              {week.map((day) => {
+                return <Dropdown.Item as="button" key={day} value={day}><div onClick={(e) => this.changeValue(e.target.textContent)}>{(day.name)}</div></Dropdown.Item>;
+              })}
+            </DropdownButton>
+          </div>
+              <ListGroup>
+              {this.state.pickedDay.map((e) => {
+                console.log();
+                return <ListGroup.Item>
+                  <div className = "event-border">
+                    <ul style={{listStyleType: "none",}}> 
+                      <li>{e.name}</li>
+                      <li>{e.time}</li>
+                      <li>{e.location}</li>
+                      <li>{e.people.map((person) =>{return `${person}, `})}</li>
+                      <li>{e.description}</li>
+                    </ul>
+                  </div>
+                  </ListGroup.Item>;
+              })}
+              </ListGroup>
+        </div>
       </div>
     );
   }
