@@ -38,11 +38,7 @@ app.post('/create/user', async (req, res) => {
 	try {
 		const { username } = req.body;
 		let postData = {
-			[username]: {
-				events: {
-					placeholder: 0
-				}
-			}
+			[username]: { }
 		};
 		var ref = db.ref('/data/users');
 		await ref.update(postData);
@@ -58,18 +54,18 @@ app.post('/create/event', async (req, res) => {
 		const { location, title, time, attendees, desc, username } = req.body;
 		let eventID = makeid();
 		const eventsRef = db.ref('/data/events');
-		const userRef = db.ref(`/data/users/${username}/events`);
-		var eventsSnapshot = await userRef.once('value');
-		var eventsData = eventsSnapshot.val();
-		eventsData[eventID] = {
-			owner: username,
-			title: title,
-			desc: desc,
-			location: location,
-			time: time,
-			attendees: attendees
+		// const userRef = db.ref(`/data/users/${username}/events`);
+		// var eventsSnapshot = await userRef.once('value');
+		let eventsData = {
+			[eventID] : {
+				owner: username,
+				title: title,
+				desc: desc,
+				location: location,
+				time: time,
+				attendees: attendees
+			}
 		};
-		await userRef.update(eventsData);
 		await eventsRef.update(eventsData);
 		res.send('success');
 	} catch (e) {
@@ -83,7 +79,7 @@ app.post('/delete/event', async (req, res) => {
 		const { username, eventID } = req.body;
 		var ref = db.ref('/data');
 		var updates = {};
-		updates[`/${username}/events/${eventID}`] = null;
+		updates[`/events/${eventID}`] = null;
 		await ref.update(updates);
 		res.send('success');
 	} catch (e) {
