@@ -110,15 +110,7 @@ var Sunday = [{
   people: ['Aaron Kaneti', 'Danyil Pysmak'],
   location: 'Tech',
   description: 'gen lec',
-},
-{
-  time: '11:00 - 11:50',
-  name: 'Chem',
-  people: ['Aaron Kaneti', 'Danyil Pysmak'],
-  location: 'Tech',
-  description: 'gen lec',
-},
-];
+},];
 var bringMonday = function Monday()
  {
    return Monday;
@@ -160,6 +152,10 @@ class App extends React.Component {
     this.acceptEvent = this.acceptEvent.bind(this);
   }
   componentDidMount(){
+
+    //do API call. With the coming JSON check if its in the same format as above
+    //If like above, push into array and check if its there.
+    Sunday.push(eventA[0]);
   }
   changeValue(text) {
     if (this.state.dropDownValue === 'Monday' || this.state.dropDownValue === 'Pick a day') {
@@ -229,7 +225,7 @@ class App extends React.Component {
                       <li>{e.people.map((person) =>{return `${person}, `})}</li>
                       <li>{e.description}</li>
                     </ul>
-                    <Button onClick={this.acceptEvent} style={{ marginLeft: '2.8%', backgroundColor: this.state.bgColor }}>+</Button>
+                    <Button className ="" onClick={this.acceptEvent} style={{ marginLeft: '2.8%', backgroundColor: this.state.bgColor }}>+</Button>
                   </div>
                   </ListGroup.Item>;
               })}
