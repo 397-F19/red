@@ -95,17 +95,10 @@ app.post('/join/event', async (req, res) => {
 	try {
 		const { username, eventID } = req.body;
 		const eventsRef = db.ref(`/data/events/${eventID}/attendees`);
-		const ownerRef = db.ref(`/data/events/${eventID}/owner`);
-		let ownerSnapshot = await ownerRef.once('value');
-		let owner = ownerSnapshot.val();
-		const userRef = db.ref(
-			`/data/users/${owner}/events/${eventID}/attendees`
-		);
 		let updates = {
 			[username]: 0
 		};
 		await eventsRef.update(updates);
-		await userRef.update(updates);
 		res.send('success');
 	} catch (e) {
 		res.sendStatus(400).send(e);
@@ -117,17 +110,10 @@ app.post('/leave/event', async (req, res) => {
 	try {
 		const { username, eventID } = req.body;
 		const eventsRef = db.ref(`/data/events/${eventID}/attendees`);
-		const ownerRef = db.ref(`/data/events/${eventID}/owner`);
-		let ownerSnapshot = await ownerRef.once('value');
-		let owner = ownerSnapshot.val();
-		const userRef = db.ref(
-			`/data/users/${owner}/events/${eventID}/attendees`
-		);
 		let updates = {
 			[username]: null
 		};
 		await eventsRef.update(updates);
-		await userRef.update(updates);
 		res.send('success');
 	} catch (e) {
 		res.sendStatus(400).send(e);
