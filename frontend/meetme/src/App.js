@@ -1,6 +1,7 @@
 import React from 'react';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -33,8 +34,15 @@ var Tuesday = [{
   people: ['Aaron Kaneti', 'Danyil Pysmak'],
   location: 'Tech',
   description: 'gen lec',
-}
-  ,];
+  },
+  {
+    time: '11:00 - 11:50',
+    name: 'Chem',
+    people: ['Aaron Kaneti', 'Danyil Pysmak'],
+    location: 'Tech',
+    description: 'gen lec',
+  },
+];
 var bringMonday = function Monday()
  {
    return Monday;
@@ -58,7 +66,9 @@ class App extends React.Component {
     this.state = {
       dropDownValue: 'Pick a day',
       pickedDay: Monday,
+      bgColor: 'navyblue',
     }
+    this.acceptEvent = this.acceptEvent.bind(this);
   }
   changeValue(text) {
     if (this.state.dropDownValue == 'Monday' || this.state.dropDownValue == 'Pick a day') {
@@ -68,6 +78,11 @@ class App extends React.Component {
       this.setState({ pickedDay: Tuesday });
     }
     this.setState({dropDownValue: text})
+  }
+  acceptEvent(){
+    this.setState(prevState => ({
+      bgColor: 'lightgray',
+    }));
   }
   render()
   {
@@ -92,7 +107,6 @@ class App extends React.Component {
           </div>
               <ListGroup>
               {this.state.pickedDay.map((e) => {
-                console.log();
                 return <ListGroup.Item>
                   <div className = "event-border">
                     <ul style={{listStyleType: "none",}}> 
@@ -102,6 +116,7 @@ class App extends React.Component {
                       <li>{e.people.map((person) =>{return `${person}, `})}</li>
                       <li>{e.description}</li>
                     </ul>
+                    <Button onClick={this.acceptEvent} style={{ marginLeft: '2.8%', backgroundColor: this.state.bgColor }}>+</Button>
                   </div>
                   </ListGroup.Item>;
               })}
