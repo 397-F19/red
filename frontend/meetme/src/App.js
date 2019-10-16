@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import eventA from './test.json';
 
 var Monday = [
   {
@@ -160,7 +161,7 @@ class App extends React.Component {
     this.acceptEvent = this.acceptEvent.bind(this);
   }
   componentDidMount(){
-
+    console.log(eventA.fJGVqvQ.attendees);
   }
   changeValue(text) {
     if (this.state.dropDownValue === 'Monday' || this.state.dropDownValue === 'Pick a day') {
@@ -168,6 +169,21 @@ class App extends React.Component {
     }
     else if (this.state.dropDownValue === 'Tuesday') {
       this.setState({ pickedDay: Tuesday });
+    }
+    else if (this.state.dropDownValue === 'Wednesday') {
+      this.setState({ pickedDay: Wednesday });
+    }
+    else if (this.state.dropDownValue === 'Thursday') {
+      this.setState({ pickedDay: Thursday });
+    }
+    else if (this.state.dropDownValue === 'Friday') {
+      this.setState({ pickedDay: Friday });
+    }
+    else if (this.state.dropDownValue === 'Saturday') {
+      this.setState({ pickedDay: Saturday });
+    }
+    else if (this.state.dropDownValue === 'Sunday') {
+      this.setState({ pickedDay: Sunday });
     }
     this.setState({dropDownValue: text})
   }
