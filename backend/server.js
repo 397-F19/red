@@ -37,8 +37,11 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.post('/create/user', async (req, res) => {
 	try {
 		const { username } = req.body;
+		let userID = makeid();
 		let postData = {
-			[username]: { }
+			[username]: {
+				user_id : userID
+			}
 		};
 		var ref = db.ref('/data/users');
 		await ref.update(postData);
