@@ -2,7 +2,7 @@ import React from 'react';
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from 'perfect-scrollbar';
 import { Route, Switch } from 'react-router-dom';
-
+import firebase from 'firebase';
 import DemoNavbar from 'components/Navbars/DemoNavbar.jsx';
 import Footer from 'components/Footer/Footer.jsx';
 import Sidebar from 'components/Sidebar/Sidebar.jsx';
@@ -11,6 +11,11 @@ import Sidebar from 'components/Sidebar/Sidebar.jsx';
 import routes from 'routes.js';
 
 var ps;
+const config = require('../firebaseKey.json');
+firebase.initializeApp(config);
+const auth = firebase.auth();
+var db = firebase.database();
+var ref = db.ref('/data');
 
 class Dashboard extends React.Component {
 	constructor(props) {
@@ -45,6 +50,71 @@ class Dashboard extends React.Component {
 	handleBgClick = color => {
 		this.setState({ backgroundColor: color });
 	};
+	saveState = state => {
+		localStorage.setItem('displayName', state.user.displayName);
+		localStorage.setItem('email', state.user.email);
+		localStorage.setItem('photoURL', state.user.photoURL);
+		localStorage.setItem('auth', state.auth);
+		localStorage.setItem('uid', state.user.uid);
+
+		return;
+	};
+
+	signInWithGoogle = async () => {
+		const googleAuthProvider = await new firebase.auth.GoogleAuthProvider();
+		let success = true;
+		let events = [];
+
+		const data = await auth.signInWithPopup(googleAuthProvider).catch(error => {
+			console.log(error);
+			success = false;
+		});
+		this.setState({
+			userData: data
+		});
+
+		if (success) {
+			//update database
+			let snapshot = await firebase
+				.database()
+				.ref('/data/users/' + data.user.uid)
+				.once('value');
+
+			if (!snapshot.val()) {
+				console.log('no snapshot');
+				var updates = {};
+				var updateData = {
+					email: data.user.email,
+					username: data.user.displayName,
+					curEventId: 5
+				};
+
+				updates['/' + data.user.uid] = updateData;
+				localStorage.setItem('curEventId', 5);
+			} else {
+				localStorage.setItem('curEventId', snapshot.val().curEventId);
+			}
+		}
+
+		var str = await JSON.stringify(events);
+		await localStorage.setItem('events', str);
+		const state = {
+			user: {
+				photoURL: data.user.photoURL,
+				displayName: data.user.displayName,
+				email: data.user.email,
+				uid: data.user.uid,
+				events: events
+			},
+			auth: true
+		};
+		this.saveState(state);
+		console.log('success content is: ' + success);
+		console.log('events localStorage', localStorage.getItem('events'));
+
+		return success;
+	};
+
 	render() {
 		return (
 			<div className="wrapper">
@@ -55,7 +125,10 @@ class Dashboard extends React.Component {
 					activeColor={this.state.activeColor}
 				/>
 				<div className="main-panel" ref={this.mainPanel}>
-					<DemoNavbar {...this.props} />
+					<DemoNavbar
+						{...this.props}
+						signInWithGoogle={() => this.signInWithGoogle()}
+					/>
 					<Switch>
 						{routes.map((prop, key) => {
 							return (
