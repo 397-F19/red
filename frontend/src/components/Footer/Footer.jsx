@@ -32,8 +32,7 @@ class Footer extends React.Component {
 					<Row>
 						<div className="credits ml-auto">
 							<div className="copyright">
-								&copy; {1900 + new Date().getYear()}, made with{' '}
-								<i className="fa fa-heart heart" /> by 397/497 Team Red
+								&copy; {1900 + new Date().getYear()}, made by 397/497 Team Red
 							</div>
 						</div>
 					</Row>
