@@ -1,23 +1,4 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
 	Collapse,
 	Navbar,
@@ -30,7 +11,6 @@ import {
 	DropdownItem,
 	Container
 } from 'reactstrap';
-
 import routes from 'routes.js';
 
 class Header extends React.Component {
@@ -44,6 +24,16 @@ class Header extends React.Component {
 		this.toggle = this.toggle.bind(this);
 		this.dropdownToggle = this.dropdownToggle.bind(this);
 		this.sidebarToggle = React.createRef();
+	}
+
+	async GoogleLogin() {
+		const res = await this.props.signInWithGoogle();
+		console.log('res is: ' + res);
+		if (res) {
+			this.setState({
+				redirect: true
+			});
+		}
 	}
 	toggle() {
 		if (this.state.isOpen) {
@@ -156,7 +146,15 @@ class Header extends React.Component {
 									<i className="nc-icon nc-settings-gear-65" />
 								</DropdownToggle>
 								<DropdownMenu right>
-									<DropdownItem tag="a">Log out</DropdownItem>
+									{this.props.auth ? (
+										<DropdownItem tag="a" onClick={() => this.props.logout()}>
+											Log out
+										</DropdownItem>
+									) : (
+										<DropdownItem tag="a" onClick={() => this.GoogleLogin()}>
+											Log in
+										</DropdownItem>
+									)}
 								</DropdownMenu>
 							</Dropdown>
 						</Nav>
