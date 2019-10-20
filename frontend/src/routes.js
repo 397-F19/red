@@ -34,7 +34,7 @@ var routes = [
 	},
 	{
 		path: '/add-events',
-		name: 'Add events',
+		name: 'Add event',
 		icon: 'nc-icon nc-simple-add',
 		component: AddEvents,
 		layout: '/admin'

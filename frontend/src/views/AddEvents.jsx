@@ -93,8 +93,8 @@ class AddEvents extends React.Component {
 												<FormGroup>
 													<label>People Invited</label>
 													<Input
-														defaultValue="Melbourne, Australia"
-														placeholder="Home Address"
+														defaultValue=""
+														placeholder="People you pick will show up here."
 														type="text"
 													/>
 												</FormGroup>
@@ -112,11 +112,11 @@ class AddEvents extends React.Component {
 														onChange={this.onChange}
 														// import the friends list into 'suggestions'
 														suggestions={[
-															'Bradley',
-															'Aaron',
-															'Danyil',
-															'Amulya',
-															'Terry'
+															'Bradley Matthew Ramos',
+															'Aaron Kaneti',
+															"Danyil 'Dan' Pysmak",
+															'Amulya Angajala',
+															"Mingyao 'Terry' Tao"
 														]}
 													/>
 												</FormGroup>
@@ -124,7 +124,7 @@ class AddEvents extends React.Component {
 										</Row>
 										<Row>
 											<div className="update ml-auto mr-auto">
-												<Button className="btn-round" color="primary">
+												<Button className="btn-round" color="primary" onClick={{}}>
 													Create event!
 												</Button>
 											</div>
