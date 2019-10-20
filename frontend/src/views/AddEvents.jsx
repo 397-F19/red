@@ -47,8 +47,8 @@ class AddEvents extends React.Component {
 												<FormGroup>
 													<label>Title</label>
 													<Input
-														defaultValue="Dinner"
-														placeholder="dinner"
+														defaultValue=""
+														placeholder="What are you going to be doing?"
 														type="text"
 													/>
 												</FormGroup>
@@ -57,8 +57,8 @@ class AddEvents extends React.Component {
 												<FormGroup>
 													<label>Description</label>
 													<Input
-														defaultValue="Happy dinner."
-														placeholder="description"
+														defaultValue=""
+														placeholder="Describe your event a little so your friends understand it."
 														type="text"
 													/>
 												</FormGroup>
@@ -104,8 +104,7 @@ class AddEvents extends React.Component {
 											<Col className="pr-1" md="12">
 												<FormGroup>
 													<label>
-														Choose friends to invite (Enter our group names to
-														test)
+														Choose friends to invite (Enter anyone from group Red to try it out!)
 													</label>
 													<Chips
 														value={this.state.friendsInvited}
