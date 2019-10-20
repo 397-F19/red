@@ -55,14 +55,14 @@ class User extends React.Component {
 												className="avatar border-gray"
 												src={require('assets/img/mike.jpg')}
 											/>
-											<h5 className="title">Chet Faker</h5>
+											<h5 className="title">Aaron Kaneti</h5>
 										</a>
-										<p className="description">@chetfaker</p>
+										<p className="description">aaronkaneti@gmail.com</p>
 									</div>
-									<p className="description text-center">
+									{/* <p className="description text-center">
 										"I like the way you work it <br />
 										No diggity <br />I wanna bag it up"
-									</p>
+									</p> */}
 								</CardBody>
 								<CardFooter>
 									<hr />
@@ -110,9 +110,9 @@ class User extends React.Component {
 													</div>
 												</Col>
 												<Col md="7" xs="7">
-													Aaron <br />
+													Mingyao 'Terry' Tan <br />
 													<span className="text-muted">
-														{/* <small>Offline</small> */}
+														<small>mingyaotan@gmail.com</small>
 													</span>
 												</Col>
 												<Col className="text-right" md="3" xs="3">
@@ -139,10 +139,40 @@ class User extends React.Component {
 													</div>
 												</Col>
 												<Col md="7" xs="7">
-													Terry
+													Bradley Ramos
 													<br />
-													<span className="text-success">
-														{/* <small>Available</small> */}
+													<span className="text-muted">
+														<small>bradleyramos@gmail.com</small>
+													</span>
+												</Col>
+												<Col className="text-right" md="3" xs="3">
+													<Button
+														className="btn-round btn-icon"
+														color="success"
+														outline
+														size="sm"
+													>
+														<i className="fa fa-envelope" />
+													</Button>
+												</Col>
+											</Row>
+										</li>
+										<li>
+											<Row>
+												<Col md="2" xs="2">
+													<div className="avatar">
+														<img
+															alt="..."
+															className="img-circle img-no-padding img-responsive"
+															src={require('assets/img/faces/joe-gardner-2.jpg')}
+														/>
+													</div>
+												</Col>
+												<Col md="7" xs="7">
+													Amulya Angajala
+													<br />
+													<span className="text-muted">
+														<small>aangajala@gmail.com</small>
 													</span>
 												</Col>
 												<Col className="text-right" md="3" xs="3">
@@ -169,9 +199,9 @@ class User extends React.Component {
 													</div>
 												</Col>
 												<Col className="col-ms-7" xs="7">
-													Bradley <br />
-													<span className="text-danger">
-														{/* <small>Busy</small> */}
+													Danyil Pysmak <br />
+													<span className="text-muted">
+														<small>danpysmak@gmail.com</small>
 													</span>
 												</Col>
 												<Col className="text-right" md="3" xs="3">
