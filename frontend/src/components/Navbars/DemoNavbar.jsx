@@ -11,7 +11,6 @@ import {
 	DropdownItem,
 	Container
 } from 'reactstrap';
-
 import routes from 'routes.js';
 
 class Header extends React.Component {
@@ -26,6 +25,7 @@ class Header extends React.Component {
 		this.dropdownToggle = this.dropdownToggle.bind(this);
 		this.sidebarToggle = React.createRef();
 	}
+
 	async GoogleLogin() {
 		const res = await this.props.signInWithGoogle();
 		console.log('res is: ' + res);
@@ -146,10 +146,15 @@ class Header extends React.Component {
 									<i className="nc-icon nc-settings-gear-65" />
 								</DropdownToggle>
 								<DropdownMenu right>
-									<DropdownItem tag="a">Log out</DropdownItem>
-									<DropdownItem tag="a" onClick={() => this.GoogleLogin()}>
-										Log in
-									</DropdownItem>
+									{this.props.auth ? (
+										<DropdownItem tag="a" onClick={() => this.props.logout()}>
+											Log out
+										</DropdownItem>
+									) : (
+										<DropdownItem tag="a" onClick={() => this.GoogleLogin()}>
+											Log in
+										</DropdownItem>
+									)}
 								</DropdownMenu>
 							</Dropdown>
 						</Nav>

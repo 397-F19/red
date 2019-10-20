@@ -9,6 +9,7 @@ import Sidebar from 'components/Sidebar/Sidebar.jsx';
 // import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
 import routes from 'routes.js';
+import NotificationAlert from 'react-notification-alert';
 
 var ps;
 const config = require('../firebaseKey.json');
@@ -22,10 +23,13 @@ class Dashboard extends React.Component {
 		super(props);
 		this.state = {
 			backgroundColor: 'black',
-			activeColor: 'info'
+			activeColor: 'info',
+			auth: false
 		};
 		this.mainPanel = React.createRef();
+		this.notificationAlert = React.createRef();
 	}
+
 	componentDidMount() {
 		if (navigator.platform.indexOf('Win') > -1) {
 			ps = new PerfectScrollbar(this.mainPanel.current);
@@ -70,30 +74,29 @@ class Dashboard extends React.Component {
 			success = false;
 		});
 		this.setState({
-			userData: data
+			userData: data,
+			auth: true
 		});
 
 		if (success) {
 			//update database
-			let snapshot = await firebase
-				.database()
-				.ref('/data/users/' + data.user.uid)
-				.once('value');
-
-			if (!snapshot.val()) {
-				console.log('no snapshot');
-				var updates = {};
-				var updateData = {
-					email: data.user.email,
-					username: data.user.displayName,
-					curEventId: 5
-				};
-
-				updates['/' + data.user.uid] = updateData;
-				localStorage.setItem('curEventId', 5);
-			} else {
-				localStorage.setItem('curEventId', snapshot.val().curEventId);
-			}
+			// let snapshot = await firebase
+			// 	.database()
+			// 	.ref('/data/users/' + data.user.uid)
+			// 	.once('value');
+			// if (!snapshot.val()) {
+			// 	console.log('no snapshot');
+			// 	var updates = {};
+			// 	var updateData = {
+			// 		email: data.user.email,
+			// 		username: data.user.displayName,
+			// 		curEventId: 5
+			// 	};
+			// 	updates['/' + data.user.uid] = updateData;
+			// 	localStorage.setItem('curEventId', 5);
+			// } else {
+			// 	localStorage.setItem('curEventId', snapshot.val().curEventId);
+			// }
 		}
 
 		var str = await JSON.stringify(events);
@@ -111,13 +114,43 @@ class Dashboard extends React.Component {
 		this.saveState(state);
 		console.log('success content is: ' + success);
 		console.log('events localStorage', localStorage.getItem('events'));
+		var options = {
+			place: 'tr',
+			message: (
+				<div>
+					<div>Successfully logged in.</div>
+				</div>
+			),
+			type: 'primary',
+			icon: 'nc-icon nc-bell-55',
+			autoDismiss: 3
+		};
+		this.notificationAlert.current.notificationAlert(options);
 
 		return success;
 	};
 
+	logout() {
+		localStorage.clear();
+		var options = {
+			place: 'tr',
+			message: (
+				<div>
+					<div>Successfully logged out.</div>
+				</div>
+			),
+			type: 'primary',
+			icon: 'nc-icon nc-bell-55',
+			autoDismiss: 3
+		};
+		this.notificationAlert.current.notificationAlert(options);
+		this.setState({ auth: false });
+	}
+
 	render() {
 		return (
 			<div className="wrapper">
+				<NotificationAlert ref={this.notificationAlert} />
 				<Sidebar
 					{...this.props}
 					routes={routes}
@@ -128,6 +161,8 @@ class Dashboard extends React.Component {
 					<DemoNavbar
 						{...this.props}
 						signInWithGoogle={() => this.signInWithGoogle()}
+						logout={() => this.logout()}
+						auth={this.state.auth}
 					/>
 					<Switch>
 						{routes.map((prop, key) => {
