@@ -16,12 +16,13 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Dashboard from 'views/Dashboard.jsx';
+// import Dashboard from 'views/Dashboard.jsx';
 import Notifications from 'views/Notifications.jsx';
 import Icons from 'views/Icons.jsx';
 import Typography from 'views/Typography.jsx';
 import TableList from 'views/Tables.jsx';
 import UserPage from 'views/User.jsx';
+import AddEvents from 'views/AddEvents';
 
 var routes = [
 	{
@@ -31,13 +32,20 @@ var routes = [
 		component: TableList,
 		layout: '/admin'
 	},
-	// {
-	// 	path: '/dashboard',
-	// 	name: 'Dashboard',
-	// 	icon: 'nc-icon nc-bank',
-	// 	component: Dashboard,
-	// 	layout: '/admin'
-	// },
+	{
+		path: '/add-events',
+		name: 'Add events',
+		icon: 'nc-icon nc-simple-add',
+		component: AddEvents,
+		layout: '/admin'
+	},
+	{
+		path: '/user-page',
+		name: 'User Profile',
+		icon: 'nc-icon nc-single-02',
+		component: UserPage,
+		layout: '/admin'
+	},
 	{
 		path: '/icons',
 		name: 'Icons',
@@ -50,13 +58,6 @@ var routes = [
 		name: 'Notifications',
 		icon: 'nc-icon nc-bell-55',
 		component: Notifications,
-		layout: '/admin'
-	},
-	{
-		path: '/user-page',
-		name: 'User Profile',
-		icon: 'nc-icon nc-single-02',
-		component: UserPage,
 		layout: '/admin'
 	},
 	{

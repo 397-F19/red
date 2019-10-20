@@ -30,28 +30,6 @@ class Footer extends React.Component {
 			>
 				<Container fluid={this.props.fluid ? true : false}>
 					<Row>
-						<nav className="footer-nav">
-							<ul>
-								<li>
-									<a href="https://www.creative-tim.com" target="_blank">
-										Team Red
-									</a>
-								</li>
-								<li>
-									<a href="https://blog.creative-tim.com" target="_blank">
-										Blog
-									</a>
-								</li>
-								<li>
-									<a
-										href="https://www.creative-tim.com/license"
-										target="_blank"
-									>
-										Licenses
-									</a>
-								</li>
-							</ul>
-						</nav>
 						<div className="credits ml-auto">
 							<div className="copyright">
 								&copy; {1900 + new Date().getYear()}, made with{' '}

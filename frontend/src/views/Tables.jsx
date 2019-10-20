@@ -47,7 +47,7 @@ class Tables extends React.Component {
 												<th>Description</th>
 												<th>Location</th>
 												<th>Time</th>
-												<th className="text-right">Joinees</th>
+												<th className="text-right">Attendees</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -85,7 +85,7 @@ class Tables extends React.Component {
 												<th>Description</th>
 												<th>Location</th>
 												<th>Time</th>
-												<th className="text-right">Joinees</th>
+												<th className="text-right">Attendees</th>
 											</tr>
 										</thead>
 										<tbody>
