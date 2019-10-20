@@ -49,14 +49,12 @@ class User extends React.Component {
 								</div>
 								<CardBody>
 									<div className="author">
-										<a href="#pablo" onClick={e => e.preventDefault()}>
 											<img
 												alt="..."
 												className="avatar border-gray"
 												src={require('assets/img/mike.jpg')}
 											/>
 											<h5 className="title">Aaron Kaneti</h5>
-										</a>
 										<p className="description">aaronkaneti@gmail.com</p>
 									</div>
 									{/* <p className="description text-center">
