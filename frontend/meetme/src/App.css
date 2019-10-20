@@ -1,0 +1,29 @@
+.App {
+  text-align: center;
+}
+
+.borders-out
+{
+  margin: 5%;
+}
+.days{
+  margin-bottom: 2%;
+  margin-left: 2.5%;
+}
+.profile-picture{
+  background-color: lightgray; 
+  border-radius: 80px;
+  height: 65px;
+  width: 65px;
+  margin-left: 95%;
+  align-self: flex-end;
+  margin-bottom: -25px;
+  margin-left: 1895%;
+}
+.dropdown{
+  margin-top:55px;
+}
+.conflicts
+{
+  background-color: 'deepskyblue';
+}

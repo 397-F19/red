@@ -37,11 +37,10 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.post('/create/user', async (req, res) => {
 	try {
 		const { username } = req.body;
+		let userID = makeid();
 		let postData = {
 			[username]: {
-				events: {
-					placeholder: 0
-				}
+				user_id : userID
 			}
 		};
 		var ref = db.ref('/data/users');
@@ -58,18 +57,18 @@ app.post('/create/event', async (req, res) => {
 		const { location, title, time, attendees, desc, username } = req.body;
 		let eventID = makeid();
 		const eventsRef = db.ref('/data/events');
-		const userRef = db.ref(`/data/users/${username}/events`);
-		var eventsSnapshot = await userRef.once('value');
-		var eventsData = eventsSnapshot.val();
-		eventsData[eventID] = {
-			owner: username,
-			title: title,
-			desc: desc,
-			location: location,
-			time: time,
-			attendees: attendees
+		// const userRef = db.ref(`/data/users/${username}/events`);
+		// var eventsSnapshot = await userRef.once('value');
+		let eventsData = {
+			[eventID] : {
+				owner: username,
+				title: title,
+				desc: desc,
+				location: location,
+				time: time,
+				attendees: attendees
+			}
 		};
-		await userRef.update(eventsData);
 		await eventsRef.update(eventsData);
 		res.send('success');
 	} catch (e) {
@@ -83,7 +82,7 @@ app.post('/delete/event', async (req, res) => {
 		const { username, eventID } = req.body;
 		var ref = db.ref('/data');
 		var updates = {};
-		updates[`/${username}/events/${eventID}`] = null;
+		updates[`/events/${eventID}`] = null;
 		await ref.update(updates);
 		res.send('success');
 	} catch (e) {
@@ -96,17 +95,10 @@ app.post('/join/event', async (req, res) => {
 	try {
 		const { username, eventID } = req.body;
 		const eventsRef = db.ref(`/data/events/${eventID}/attendees`);
-		const ownerRef = db.ref(`/data/events/${eventID}/owner`);
-		let ownerSnapshot = await ownerRef.once('value');
-		let owner = ownerSnapshot.val();
-		const userRef = db.ref(
-			`/data/users/${owner}/events/${eventID}/attendees`
-		);
 		let updates = {
 			[username]: 0
 		};
 		await eventsRef.update(updates);
-		await userRef.update(updates);
 		res.send('success');
 	} catch (e) {
 		res.sendStatus(400).send(e);
@@ -118,17 +110,10 @@ app.post('/leave/event', async (req, res) => {
 	try {
 		const { username, eventID } = req.body;
 		const eventsRef = db.ref(`/data/events/${eventID}/attendees`);
-		const ownerRef = db.ref(`/data/events/${eventID}/owner`);
-		let ownerSnapshot = await ownerRef.once('value');
-		let owner = ownerSnapshot.val();
-		const userRef = db.ref(
-			`/data/users/${owner}/events/${eventID}/attendees`
-		);
 		let updates = {
 			[username]: null
 		};
 		await eventsRef.update(updates);
-		await userRef.update(updates);
 		res.send('success');
 	} catch (e) {
 		res.sendStatus(400).send(e);
@@ -139,8 +124,9 @@ app.post('/leave/event', async (req, res) => {
 app.get('/events', async (req, res) => {
 	try {
 		const { username } = req.body;
-		const userRef = db.ref(`/data/users/${username}`);
-		var eventsSnapshot = await userRef.once('value');
+		const eventsRef = db.ref(`/data/events`);
+		const eventRef = eventsRef.orderByChild("owner").equalTo(username);
+		var eventsSnapshot = await eventRef.once('value');
 		var eventsData = eventsSnapshot.val();
 		res.send(eventsData);
 	} catch (e) {
@@ -153,7 +139,7 @@ function makeid() {
 	var possible =
 		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-	for (var i = 0; i < 5; i++)
+	for (var i = 0; i < 7; i++)
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 
 	return text;
