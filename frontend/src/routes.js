@@ -16,10 +16,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-// import Dashboard from 'views/Dashboard.jsx';
-import Notifications from 'views/Notifications.jsx';
-import Icons from 'views/Icons.jsx';
-import Typography from 'views/Typography.jsx';
+// // import Dashboard from 'views/Dashboard.jsx';
+// import Notifications from 'views/Notifications.jsx';
+// import Icons from 'views/Icons.jsx';
+// import Typography from 'views/Typography.jsx';
 import TableList from 'views/Tables.jsx';
 import UserPage from 'views/User.jsx';
 import AddEvents from 'views/AddEvents';
@@ -46,26 +46,26 @@ var routes = [
 		component: UserPage,
 		layout: '/admin'
 	},
-	{
-		path: '/icons',
-		name: 'Icons',
-		icon: 'nc-icon nc-diamond',
-		component: Icons,
-		layout: '/admin'
-	},
-	{
-		path: '/notifications',
-		name: 'Notifications',
-		icon: 'nc-icon nc-bell-55',
-		component: Notifications,
-		layout: '/admin'
-	},
-	{
-		path: '/typography',
-		name: 'Typography',
-		icon: 'nc-icon nc-caps-small',
-		component: Typography,
-		layout: '/admin'
-	}
+	// {
+	// 	path: '/icons',
+	// 	name: 'Icons',
+	// 	icon: 'nc-icon nc-diamond',
+	// 	component: Icons,
+	// 	layout: '/admin'
+	// },
+	// {
+	// 	path: '/notifications',
+	// 	name: 'Notifications',
+	// 	icon: 'nc-icon nc-bell-55',
+	// 	component: Notifications,
+	// 	layout: '/admin'
+	// },
+	// {
+	// 	path: '/typography',
+	// 	name: 'Typography',
+	// 	icon: 'nc-icon nc-caps-small',
+	// 	component: Typography,
+	// 	layout: '/admin'
+	// }
 ];
 export default routes;

@@ -80,12 +80,12 @@ class User extends React.Component {
 													<small>Friends</small>
 												</h5>
 											</Col>
-											<Col className="mr-auto" lg="3">
+											{/* <Col className="mr-auto" lg="3">
 												<h5>
 													24,6$ <br />
 													<small>Spent</small>
 												</h5>
-											</Col>
+											</Col> */}
 										</Row>
 									</div>
 								</CardFooter>
@@ -112,7 +112,7 @@ class User extends React.Component {
 												<Col md="7" xs="7">
 													Aaron <br />
 													<span className="text-muted">
-														<small>Offline</small>
+														{/* <small>Offline</small> */}
 													</span>
 												</Col>
 												<Col className="text-right" md="3" xs="3">
@@ -142,7 +142,7 @@ class User extends React.Component {
 													Terry
 													<br />
 													<span className="text-success">
-														<small>Available</small>
+														{/* <small>Available</small> */}
 													</span>
 												</Col>
 												<Col className="text-right" md="3" xs="3">
@@ -171,7 +171,7 @@ class User extends React.Component {
 												<Col className="col-ms-7" xs="7">
 													Bradley <br />
 													<span className="text-danger">
-														<small>Busy</small>
+														{/* <small>Busy</small> */}
 													</span>
 												</Col>
 												<Col className="text-right" md="3" xs="3">
