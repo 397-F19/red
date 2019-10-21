@@ -73,6 +73,7 @@ class Dashboard extends React.Component {
 			console.log(error);
 			success = false;
 		});
+		console.log(data);
 		this.setState({
 			userData: data,
 			auth: true

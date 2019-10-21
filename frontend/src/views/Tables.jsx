@@ -1,21 +1,3 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from 'react';
 
 // reactstrap components
@@ -26,7 +8,8 @@ import {
 	CardTitle,
 	Table,
 	Row,
-	Col
+	Col,
+	Button
 } from 'reactstrap';
 
 class Tables extends React.Component {
@@ -38,31 +21,48 @@ class Tables extends React.Component {
 						<Col md="12">
 							<Card>
 								<CardHeader>
-									<CardTitle tag="h4">Event List</CardTitle>
+									<CardTitle tag="h4">My Events</CardTitle>
 								</CardHeader>
 								<CardBody>
 									<Table responsive>
 										<thead className="text-primary">
 											<tr>
+												<th>Title</th>
 												<th>Description</th>
 												<th>Location</th>
 												<th>Time</th>
+												<th>Owner</th>
 												<th className="text-right">Attendees</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<td>Dinner</td>
+												<td>
+													blablaasdasd asdadfsd fsfsfsfdsfsfsdfsd sblablaasda
+													sdasdadfsdfsf sfsfdsfsfsdfs dsblabl aasd asda
+													sdadfsdfs fsfsfdsfsfsd fsdsblablaas dasdasdadfsdf
+													sfsfsfdsfsf sdfsdsb lab laasdasdasd adfsd fsfsfsfd
+													sfsfsd fsds
+												</td>
 												<td>Shang Noodle</td>
 												<td>20/10/2019 18:00 PM</td>
+												<td>blabla</td>
 												<td className="text-right">Bradley, Terry</td>
+												<td>
+													<Button color="primary">Delete</Button>
+												</td>
 											</tr>
 											<tr>
-												<td>Study</td>
-												<td>Core D Main Lib</td>
-												<td>20/10/2019 11:00 AM</td>
-												<td className="text-right">
-													Bradley, Aaron, Danyil, Amulya, Terry
+												<td>Dinner</td>
+												<td>blabla</td>
+												<td>Shang Noodle</td>
+												<td>20/10/2019 18:00 PM</td>
+												<td>blabla</td>
+												<td className="text-right">Bradley, Terry</td>
+												<td>
+													<Button color="primary">Delete</Button>
 												</td>
 											</tr>
 										</tbody>
@@ -73,7 +73,7 @@ class Tables extends React.Component {
 						<Col md="12">
 							<Card className="card-plain">
 								<CardHeader>
-									<CardTitle tag="h4">Whole Event List</CardTitle>
+									<CardTitle tag="h4">Attending Events</CardTitle>
 									<p className="card-category">
 										These are events filtered based on your personal calendar.
 									</p>
@@ -82,23 +82,29 @@ class Tables extends React.Component {
 									<Table responsive>
 										<thead className="text-primary">
 											<tr>
+												<th>Title</th>
 												<th>Description</th>
 												<th>Location</th>
 												<th>Time</th>
+												<th>Owner</th>
 												<th className="text-right">Attendees</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<td>Dinner</td>
+												<td>blabla</td>
 												<td>Shang Noodle</td>
 												<td>20/10/2019 18:00 PM</td>
+												<td>blabla</td>
 												<td className="text-right">Bradley, Terry</td>
 											</tr>
 											<tr>
 												<td>Study</td>
+												<td>blabla</td>
 												<td>Core D Main Lib</td>
 												<td>20/10/2019 11:00 AM</td>
+												<td>blabla</td>
 												<td className="text-right">
 													Bradley, Aaron, Danyil, Amulya, Terry
 												</td>
