@@ -1,14 +1,8 @@
-{
-  "fJGVqvQ": {
-    "attendees": {
-      "amulya": 0,
-      "brad": 0,
-      "test": 0
-    },
-    "desc": "Fun times",
-    "location": "main library",
-    "owner": "bradley",
-    "time": 5,
-    "title": "study"
+[
+  {"name": "Chem", 
+    "desc": "fun times",
+    "people" : ["Aaron Kaneti", "Danyil Pysmak"],
+    "location": "tech", 
+    "time": "11:00 - 11:50"
   }
-}
+]
