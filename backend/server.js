@@ -36,20 +36,43 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // create a new user with username, no password needed at this time
 app.post('/create/user', async (req, res) => {
 	try {
-		const { username } = req.body;
-		let userID = makeid();
+		const { uid, name, email } = req.body;
 		let postData = {
-			[username]: {
-				user_id : userID
+			[uid]: {
+				name : name,
+				email: email
 			}
+		};
+		let response = {
+			uid: uid
 		};
 		var ref = db.ref('/data/users');
 		await ref.update(postData);
-		res.send('success');
+		res.send(response);
 	} catch (e) {
 		res.sendStatus(400).send(e);
 	}
 });
+
+
+// DEPRECATED:
+//
+// app.post('/create/user', async (req, res) => {
+// 	try {
+// 		const { username } = req.body;
+// 		let userID = makeid();
+// 		let postData = {
+// 			[username]: {
+// 				user_id : userID
+// 			}
+// 		};
+// 		var ref = db.ref('/data/users');
+// 		await ref.update(postData);
+// 		res.send('success');
+// 	} catch (e) {
+// 		res.sendStatus(400).send(e);
+// 	}
+// });
 
 // to front-end
 app.post('/create/event', async (req, res) => {
