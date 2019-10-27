@@ -94,6 +94,31 @@ app.get('/users/uid', async (req, res) => {
 	}
 });
 
+// Create a new event. owner and attendees reference user_uid's
+app.post('/events', async (req, res) => {
+	try {
+		const { title, description, location, owner, start_time, end_time, attendees } = req.body;
+		let eventID = makeid();
+		const eventsRef = db.ref('/data/events');
+		let eventsData = {
+			[eventID] : {
+				title: title,
+				description: description,
+				location: location,
+				owner: owner,
+				start_time: start_time,
+				end_time: end_time,
+				attendees: attendees
+			}
+		};
+		await eventsRef.update(eventsData);
+		let response = {"id" : eventID};
+		res.send(response);
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
+
 // DEPRECATED:
 //
 // app.post('/create/user', async (req, res) => {
@@ -114,29 +139,29 @@ app.get('/users/uid', async (req, res) => {
 // });
 
 // to front-end
-app.post('/create/event', async (req, res) => {
-	try {
-		const { location, title, time, attendees, desc, username } = req.body;
-		let eventID = makeid();
-		const eventsRef = db.ref('/data/events');
-		// const userRef = db.ref(`/data/users/${username}/events`);
-		// var eventsSnapshot = await userRef.once('value');
-		let eventsData = {
-			[eventID] : {
-				owner: username,
-				title: title,
-				desc: desc,
-				location: location,
-				time: time,
-				attendees: attendees
-			}
-		};
-		await eventsRef.update(eventsData);
-		res.send('success');
-	} catch (e) {
-		res.sendStatus(400).send(e);
-	}
-});
+// app.post('/create/event', async (req, res) => {
+// 	try {
+// 		const { location, title, time, attendees, desc, username } = req.body;
+// 		let eventID = makeid();
+// 		const eventsRef = db.ref('/data/events');
+// 		// const userRef = db.ref(`/data/users/${username}/events`);
+// 		// var eventsSnapshot = await userRef.once('value');
+// 		let eventsData = {
+// 			[eventID] : {
+// 				owner: username,
+// 				title: title,
+// 				desc: desc,
+// 				location: location,
+// 				time: time,
+// 				attendees: attendees
+// 			}
+// 		};
+// 		await eventsRef.update(eventsData);
+// 		res.send('success');
+// 	} catch (e) {
+// 		res.sendStatus(400).send(e);
+// 	}
+// });
 
 // delete an event
 app.post('/delete/event', async (req, res) => {
