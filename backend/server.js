@@ -166,6 +166,29 @@ app.get('/events/id', async (req, res) => {
 	}
 });
 
+app.delete('/events/id', async (req, res) => {
+	try {
+		const id = req.headers['id'];
+		console.log("DELETE /events/id : ", id);
+		let path = "/data/events/" + id;
+		const eventRef = db.ref(path);
+		let eventSnapshot = await eventRef.once('value');
+		if (eventSnapshot.exists()) {
+			await eventRef.remove()
+				.then(function() {
+					console.log("Remove succeeded.")
+				})
+				.catch(function(error) {
+					console.log("Remove failed: " + error.message)
+				});
+			res.send("Success");
+		} else {
+			res.sendStatus(404).send();
+		}
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
 // DEPRECATED:
 //
 // app.post('/create/user', async (req, res) => {
