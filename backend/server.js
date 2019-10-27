@@ -186,27 +186,33 @@ app.get('/events/owner', async (req, res) => {
 	}
 });
 
-// Get a list of events where a user with user_uid is an attendee
+// Get a list of events where a user with user_uid is an attendee or owner
 app.get('/events/attendee', async (req, res) => {
 	try {
 		const uid = req.headers['uid'];
 		console.log("GET /events/attendee : ", uid);
-
-// 		const username = req.headers['username'];
-// 		const eventsRef = db.ref(`/data/events`);
-// 		const eventRef = eventsRef.orderByChild("owner").equalTo(username);
-// 		var eventsSnapshot = await eventRef.once('value');
-
 		const eventsRef = db.ref(`/data/events`);
-		let eventsSnapshot = await eventsRef.orderByKey().equalTo(id).once('value');
-		if (eventsSnapshot.exists()) {
-			let eventData = eventsSnapshot.val();
-			let keyObj = { "id": id};
-			let response = Object.assign(keyObj, eventData[id]);
-			res.send(response);
-		} else {
-			res.sendStatus(404).send();
+		let eventsSnapshot = await eventsRef.once('value');
+		let eventsData = eventsSnapshot.val();
+		let response = [];
+		for (let key in eventsData) {
+			let event  = eventsData[key];
+			if (event["owner"] == uid) {
+				let keyObj = { "id": key};
+				let obj = Object.assign(keyObj, eventsData[key]);
+				response.push(obj);
+				continue;
+			}
+			for (var i = 0; i < event["attendees"].length; i++) {
+				if (event["attendees"][i] == uid) {
+					let keyObj = { "id": key};
+					let obj = Object.assign(keyObj, eventsData[key]);
+					response.push(obj);
+					break;
+				}
+			}
 		}
+		res.send(response);
 	} catch (e) {
 		res.sendStatus(400).send(e);
 	}
