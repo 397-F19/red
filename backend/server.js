@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// create a new user with username, no password needed at this time
+// create a new user with using Google Auth's uid, name and email
 app.post('/create/user', async (req, res) => {
 	try {
 		const { uid, name, email } = req.body;
@@ -49,6 +49,23 @@ app.post('/create/user', async (req, res) => {
 		var ref = db.ref('/data/users');
 		await ref.update(postData);
 		res.send(response);
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
+
+// Get a list of all users
+app.get('/users', async (req, res) => {
+	try {
+		const usersRef = db.ref(`/data/users`);
+		var usersSnapshot = await usersRef.once('value');
+		var usersData = usersSnapshot.val();
+		var response = {};
+
+		console.log("typeof(usersData): ");
+		console.log(typeof(usersData));
+		console.log(usersData.key);
+		res.send(usersData);
 	} catch (e) {
 		res.sendStatus(400).send(e);
 	}
