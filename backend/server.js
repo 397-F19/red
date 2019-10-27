@@ -166,6 +166,33 @@ app.get('/events/id', async (req, res) => {
 	}
 });
 
+// Get a list of events where a user with user_uid is an attendee
+app.get('/events/attendee', async (req, res) => {
+	try {
+		const uid = req.headers['uid'];
+		console.log("GET /events/attendee : ", uid);
+
+// 		const username = req.headers['username'];
+// 		const eventsRef = db.ref(`/data/events`);
+// 		const eventRef = eventsRef.orderByChild("owner").equalTo(username);
+// 		var eventsSnapshot = await eventRef.once('value');
+
+		const eventsRef = db.ref(`/data/events`);
+		let eventsSnapshot = await eventsRef.orderByKey().equalTo(id).once('value');
+		if (eventsSnapshot.exists()) {
+			let eventData = eventsSnapshot.val();
+			let keyObj = { "id": id};
+			let response = Object.assign(keyObj, eventData[id]);
+			res.send(response);
+		} else {
+			res.sendStatus(404).send();
+		}
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
+
+// Delete a specific event by it's id
 app.delete('/events/id', async (req, res) => {
 	try {
 		const id = req.headers['id'];
@@ -189,6 +216,8 @@ app.delete('/events/id', async (req, res) => {
 		res.sendStatus(400).send(e);
 	}
 });
+
+
 // DEPRECATED:
 //
 // app.post('/create/user', async (req, res) => {
