@@ -33,6 +33,9 @@ app.use(bodyParser.json());
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+///////////
+// USERS
+///////////
 // create a new user with using Google Auth's uid, name and email
 app.post('/users', async (req, res) => {
 	try {
@@ -94,6 +97,10 @@ app.get('/users/uid', async (req, res) => {
 	}
 });
 
+
+///////////
+// EVENTS
+///////////
 // Create a new event. owner and attendees reference user_uid's
 app.post('/events', async (req, res) => {
 	try {
@@ -113,6 +120,30 @@ app.post('/events', async (req, res) => {
 		};
 		await eventsRef.update(eventsData);
 		let response = {"id" : eventID};
+		res.send(response);
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
+
+// Get a list of all events
+app.get('/events', async (req, res) => {
+	try {
+		const eventsRef = db.ref(`/data/events`);
+		let eventsSnapshot = await eventsRef.once('value');
+		var eventsData = eventsSnapshot.val();
+
+		let response = [];
+		for (let key in eventsData) {
+			let keyObj = { "id": key};
+			let obj = Object.assign(keyObj, eventsData[key]);
+			response.push(obj);
+		}
+
+
+		console.log("typeof(eventsData): ");
+		console.log(typeof(eventsData));
+		console.log(eventsSnapshot.key);
 		res.send(response);
 	} catch (e) {
 		res.sendStatus(400).send(e);
@@ -208,21 +239,21 @@ app.post('/leave/event', async (req, res) => {
 });
 
 // get personal events
-app.get('/events', async (req, res) => {
-	try {
-		const username = req.headers['username'];
-		const eventsRef = db.ref(`/data/events`);
-		const eventRef = eventsRef.orderByChild("owner").equalTo(username);
-		var eventsSnapshot = await eventRef.once('value');
-		var eventsData = eventsSnapshot.val();
-		console.log("typeof(eventsData): ");
-		console.log(typeof(eventsData));
-		console.log(eventsSnapshot.key);
-		res.send(eventsData);
-	} catch (e) {
-		res.sendStatus(400).send(e);
-	}
-});
+// app.get('/events', async (req, res) => {
+// 	try {
+// 		const username = req.headers['username'];
+// 		const eventsRef = db.ref(`/data/events`);
+// 		const eventRef = eventsRef.orderByChild("owner").equalTo(username);
+// 		var eventsSnapshot = await eventRef.once('value');
+// 		var eventsData = eventsSnapshot.val();
+// 		console.log("typeof(eventsData): ");
+// 		console.log(typeof(eventsData));
+// 		console.log(eventsSnapshot.key);
+// 		res.send(eventsData);
+// 	} catch (e) {
+// 		res.sendStatus(400).send(e);
+// 	}
+// });
 
 function makeid() {
 	var text = '';
