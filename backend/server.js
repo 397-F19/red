@@ -74,6 +74,25 @@ app.get('/users', async (req, res) => {
 	}
 });
 
+// Get a specific users object by his uid
+app.get('/users/uid', async (req, res) => {
+	try {
+		console.log("GET /users/uid");
+		const uid = req.headers['uid'];
+		const usersRef = db.ref(`/data/users`);
+		let usersSnapshot = await usersRef.orderByKey().equalTo(uid).once('value');
+		if (usersSnapshot.exists()) {
+			let usersData = usersSnapshot.val();
+			let keyObj = { "uid": uid};
+			let response = Object.assign(keyObj, usersData[uid]);
+			res.send(response);
+		} else {
+			res.sendStatus(404).send();
+		}
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
 
 // DEPRECATED:
 //
