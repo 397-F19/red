@@ -34,8 +34,9 @@ app.use(bodyParser.json());
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // create a new user with using Google Auth's uid, name and email
-app.post('/create/user', async (req, res) => {
+app.post('/users', async (req, res) => {
 	try {
+		console.log("POST /users");
 		const { uid, name, email } = req.body;
 		let postData = {
 			[uid]: {
@@ -57,15 +58,17 @@ app.post('/create/user', async (req, res) => {
 // Get a list of all users
 app.get('/users', async (req, res) => {
 	try {
+		console.log("GET /users");
 		const usersRef = db.ref(`/data/users`);
-		var usersSnapshot = await usersRef.once('value');
-		var usersData = usersSnapshot.val();
-		var response = {};
-
-		console.log("typeof(usersData): ");
-		console.log(typeof(usersData));
-		console.log(usersData.key);
-		res.send(usersData);
+		let usersSnapshot = await usersRef.once('value');
+		let usersData = usersSnapshot.val();
+		let response = [];
+		for (let key in usersData) {
+			let keyObj = { "uid": key};
+			let obj = Object.assign(keyObj, usersData[key]);
+			response.push(obj);
+		}
+		res.send(response);
 	} catch (e) {
 		res.sendStatus(400).send(e);
 	}
