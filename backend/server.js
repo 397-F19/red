@@ -166,6 +166,26 @@ app.get('/events/id', async (req, res) => {
 	}
 });
 
+// Get a list of events where a user with user_uid is the owner
+app.get('/events/owner', async (req, res) => {
+	try {
+		const uid = req.headers['uid'];
+		console.log("GET /events/owner : ", uid);
+		const eventsRef = db.ref(`/data/events`);
+		let eventsSnapshot = await eventsRef.orderByChild("owner").equalTo(uid).once('value');
+		let eventsData = eventsSnapshot.val();
+		let response = [];
+		for (let key in eventsData) {
+			let keyObj = { "id": key};
+			let obj = Object.assign(keyObj, eventsData[key]);
+			response.push(obj);
+		}
+		res.send(response);
+	} catch (e) {
+		res.sendStatus(400).send(e);
+	}
+});
+
 // Get a list of events where a user with user_uid is an attendee
 app.get('/events/attendee', async (req, res) => {
 	try {
