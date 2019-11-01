@@ -102,7 +102,7 @@ class Header extends React.Component {
 						? 'dark'
 						: this.state.color
 				}
-				expand="lg"
+				expand='lg'
 				className={
 					this.props.location.pathname.indexOf('full-screen-maps') !== -1
 						? 'navbar-absolute fixed-top'
@@ -111,30 +111,30 @@ class Header extends React.Component {
 				}
 			>
 				<Container fluid>
-					<div className="navbar-wrapper">
-						<div className="navbar-toggle">
+					<div className='navbar-wrapper'>
+						<div className='navbar-toggle'>
 							<button
-								type="button"
+								type='button'
 								ref={this.sidebarToggle}
-								className="navbar-toggler"
+								className='navbar-toggler'
 								onClick={() => this.openSidebar()}
 							>
-								<span className="navbar-toggler-bar bar1" />
-								<span className="navbar-toggler-bar bar2" />
-								<span className="navbar-toggler-bar bar3" />
+								<span className='navbar-toggler-bar bar1' />
+								<span className='navbar-toggler-bar bar2' />
+								<span className='navbar-toggler-bar bar3' />
 							</button>
 						</div>
-						<NavbarBrand href="#">{this.getBrand()}</NavbarBrand>
+						<NavbarBrand href='#'>{this.getBrand()}</NavbarBrand>
 					</div>
 					<NavbarToggler onClick={this.toggle}>
-						<span className="navbar-toggler-bar navbar-kebab" />
-						<span className="navbar-toggler-bar navbar-kebab" />
-						<span className="navbar-toggler-bar navbar-kebab" />
+						<span className='navbar-toggler-bar navbar-kebab' />
+						<span className='navbar-toggler-bar navbar-kebab' />
+						<span className='navbar-toggler-bar navbar-kebab' />
 					</NavbarToggler>
 					<Collapse
 						isOpen={this.state.isOpen}
 						navbar
-						className="justify-content-end"
+						className='justify-content-end'
 					>
 						<Nav navbar>
 							<Dropdown
@@ -143,15 +143,24 @@ class Header extends React.Component {
 								toggle={e => this.dropdownToggle(e)}
 							>
 								<DropdownToggle caret nav>
-									<i className="nc-icon nc-settings-gear-65" />
+									<img
+										src={this.props.avatar}
+										style={{
+											width: '60px',
+											borderRadius: '50%',
+											boxShadow:
+												'0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+										}}
+										alt=''
+									/>
 								</DropdownToggle>
 								<DropdownMenu right>
 									{this.props.auth ? (
-										<DropdownItem tag="a" onClick={() => this.props.logout()}>
+										<DropdownItem tag='a' onClick={() => this.props.logout()}>
 											Log out
 										</DropdownItem>
 									) : (
-										<DropdownItem tag="a" onClick={() => this.GoogleLogin()}>
+										<DropdownItem tag='a' onClick={() => this.GoogleLogin()}>
 											Log in
 										</DropdownItem>
 									)}

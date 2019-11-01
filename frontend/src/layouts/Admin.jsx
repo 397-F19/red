@@ -10,6 +10,7 @@ import Sidebar from 'components/Sidebar/Sidebar.jsx';
 
 import routes from 'routes.js';
 import NotificationAlert from 'react-notification-alert';
+import { createUser } from '../apis';
 
 var ps;
 const config = require('../firebaseKey.json');
@@ -24,7 +25,9 @@ class Dashboard extends React.Component {
 		this.state = {
 			backgroundColor: 'black',
 			activeColor: 'info',
-			auth: false
+			auth: false,
+			avatar:
+				'https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png'
 		};
 		this.mainPanel = React.createRef();
 		this.notificationAlert = React.createRef();
@@ -76,7 +79,8 @@ class Dashboard extends React.Component {
 		console.log(data);
 		this.setState({
 			userData: data,
-			auth: true
+			auth: true,
+			avatar: data.user.photoURL
 		});
 
 		if (success) {
@@ -98,6 +102,12 @@ class Dashboard extends React.Component {
 			// } else {
 			// 	localStorage.setItem('curEventId', snapshot.val().curEventId);
 			// }
+			const parseData = {
+				uid: data.user.uid,
+				name: data.user.displayName,
+				email: data.user.email
+			};
+			createUser(parseData);
 		}
 
 		var str = await JSON.stringify(events);
@@ -150,7 +160,7 @@ class Dashboard extends React.Component {
 
 	render() {
 		return (
-			<div className="wrapper">
+			<div className='wrapper'>
 				<NotificationAlert ref={this.notificationAlert} />
 				<Sidebar
 					{...this.props}
@@ -158,12 +168,13 @@ class Dashboard extends React.Component {
 					bgColor={this.state.backgroundColor}
 					activeColor={this.state.activeColor}
 				/>
-				<div className="main-panel" ref={this.mainPanel}>
+				<div className='main-panel' ref={this.mainPanel}>
 					<DemoNavbar
 						{...this.props}
 						signInWithGoogle={() => this.signInWithGoogle()}
 						logout={() => this.logout()}
 						auth={this.state.auth}
+						avatar={this.state.avatar}
 					/>
 					<Switch>
 						{routes.map((prop, key) => {
