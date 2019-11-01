@@ -1,21 +1,3 @@
-/*!
-
-=========================================================
-* Paper Dashboard React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from 'react';
 
 // reactstrap components
@@ -37,25 +19,25 @@ class User extends React.Component {
 	render() {
 		return (
 			<>
-				<div className="content">
+				<div className='content'>
 					<Row>
-						<Col md="4">
-							<Card className="card-user">
-								<div className="image">
+						<Col md='4'>
+							<Card className='card-user'>
+								<div className='image'>
 									<img
-										alt="..."
+										alt='...'
 										src={require('assets/img/damir-bosnjak.jpg')}
 									/>
 								</div>
 								<CardBody>
-									<div className="author">
-											<img
-												alt="..."
-												className="avatar border-gray"
-												src={require('assets/img/mike.jpg')}
-											/>
-											<h5 className="title">Aaron Kaneti</h5>
-										<p className="description">aaronkaneti@gmail.com</p>
+									<div className='author'>
+										<img
+											alt='...'
+											className='avatar border-gray'
+											src={require('assets/img/mike.jpg')}
+										/>
+										<h5 className='title'>Aaron Kaneti</h5>
+										<p className='description'>aaronkaneti@gmail.com</p>
 									</div>
 									{/* <p className="description text-center">
 										"I like the way you work it <br />
@@ -64,15 +46,15 @@ class User extends React.Component {
 								</CardBody>
 								<CardFooter>
 									<hr />
-									<div className="button-container">
+									<div className='button-container'>
 										<Row>
-											<Col className="ml-auto" lg="3" md="6" xs="6">
+											<Col className='ml-auto' lg='3' md='6' xs='6'>
 												<h5>
 													12 <br />
 													<small>Events</small>
 												</h5>
 											</Col>
-											<Col className="ml-auto mr-auto" lg="4" md="6" xs="6">
+											<Col className='ml-auto mr-auto' lg='4' md='6' xs='6'>
 												<h5>
 													200 <br />
 													<small>Friends</small>
@@ -89,127 +71,127 @@ class User extends React.Component {
 								</CardFooter>
 							</Card>
 						</Col>
-						<Col md="8">
+						<Col md='8'>
 							<Card>
 								<CardHeader>
-									<CardTitle tag="h4">My Friends</CardTitle>
+									<CardTitle tag='h4'>My Friends</CardTitle>
 								</CardHeader>
 								<CardBody>
-									<ul className="list-unstyled team-members">
+									<ul className='list-unstyled team-members'>
 										<li>
 											<Row>
-												<Col md="2" xs="2">
-													<div className="avatar">
+												<Col md='2' xs='2'>
+													<div className='avatar'>
 														<img
-															alt="..."
-															className="img-circle img-no-padding img-responsive"
+															alt='...'
+															className='img-circle img-no-padding img-responsive'
 															src={require('assets/img/faces/ayo-ogunseinde-2.jpg')}
 														/>
 													</div>
 												</Col>
-												<Col md="7" xs="7">
+												<Col md='7' xs='7'>
 													Mingyao 'Terry' Tan <br />
-													<span className="text-muted">
+													<span className='text-muted'>
 														<small>mingyaotan@gmail.com</small>
 													</span>
 												</Col>
-												<Col className="text-right" md="3" xs="3">
+												<Col className='text-right' md='3' xs='3'>
 													<Button
-														className="btn-round btn-icon"
-														color="success"
+														className='btn-round btn-icon'
+														color='success'
 														outline
-														size="sm"
+														size='sm'
 													>
-														<i className="fa fa-envelope" />
+														<i className='fa fa-envelope' />
 													</Button>
 												</Col>
 											</Row>
 										</li>
 										<li>
 											<Row>
-												<Col md="2" xs="2">
-													<div className="avatar">
+												<Col md='2' xs='2'>
+													<div className='avatar'>
 														<img
-															alt="..."
-															className="img-circle img-no-padding img-responsive"
+															alt='...'
+															className='img-circle img-no-padding img-responsive'
 															src={require('assets/img/faces/joe-gardner-2.jpg')}
 														/>
 													</div>
 												</Col>
-												<Col md="7" xs="7">
+												<Col md='7' xs='7'>
 													Bradley Ramos
 													<br />
-													<span className="text-muted">
+													<span className='text-muted'>
 														<small>bradleyramos@gmail.com</small>
 													</span>
 												</Col>
-												<Col className="text-right" md="3" xs="3">
+												<Col className='text-right' md='3' xs='3'>
 													<Button
-														className="btn-round btn-icon"
-														color="success"
+														className='btn-round btn-icon'
+														color='success'
 														outline
-														size="sm"
+														size='sm'
 													>
-														<i className="fa fa-envelope" />
+														<i className='fa fa-envelope' />
 													</Button>
 												</Col>
 											</Row>
 										</li>
 										<li>
 											<Row>
-												<Col md="2" xs="2">
-													<div className="avatar">
+												<Col md='2' xs='2'>
+													<div className='avatar'>
 														<img
-															alt="..."
-															className="img-circle img-no-padding img-responsive"
+															alt='...'
+															className='img-circle img-no-padding img-responsive'
 															src={require('assets/img/faces/joe-gardner-2.jpg')}
 														/>
 													</div>
 												</Col>
-												<Col md="7" xs="7">
+												<Col md='7' xs='7'>
 													Amulya Angajala
 													<br />
-													<span className="text-muted">
+													<span className='text-muted'>
 														<small>aangajala@gmail.com</small>
 													</span>
 												</Col>
-												<Col className="text-right" md="3" xs="3">
+												<Col className='text-right' md='3' xs='3'>
 													<Button
-														className="btn-round btn-icon"
-														color="success"
+														className='btn-round btn-icon'
+														color='success'
 														outline
-														size="sm"
+														size='sm'
 													>
-														<i className="fa fa-envelope" />
+														<i className='fa fa-envelope' />
 													</Button>
 												</Col>
 											</Row>
 										</li>
 										<li>
 											<Row>
-												<Col md="2" xs="2">
-													<div className="avatar">
+												<Col md='2' xs='2'>
+													<div className='avatar'>
 														<img
-															alt="..."
-															className="img-circle img-no-padding img-responsive"
+															alt='...'
+															className='img-circle img-no-padding img-responsive'
 															src={require('assets/img/faces/clem-onojeghuo-2.jpg')}
 														/>
 													</div>
 												</Col>
-												<Col className="col-ms-7" xs="7">
+												<Col className='col-ms-7' xs='7'>
 													Danyil Pysmak <br />
-													<span className="text-muted">
+													<span className='text-muted'>
 														<small>danpysmak@gmail.com</small>
 													</span>
 												</Col>
-												<Col className="text-right" md="3" xs="3">
+												<Col className='text-right' md='3' xs='3'>
 													<Button
-														className="btn-round btn-icon"
-														color="success"
+														className='btn-round btn-icon'
+														color='success'
 														outline
-														size="sm"
+														size='sm'
 													>
-														<i className="fa fa-envelope" />
+														<i className='fa fa-envelope' />
 													</Button>
 												</Col>
 											</Row>
