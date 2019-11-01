@@ -10,7 +10,7 @@ import Sidebar from 'components/Sidebar/Sidebar.jsx';
 
 import routes from 'routes.js';
 import NotificationAlert from 'react-notification-alert';
-import { createUser } from '../apis';
+import { createUser, getUserInfo } from '../apis';
 
 var ps;
 const config = require('../firebaseKey.json');
@@ -105,9 +105,11 @@ class Dashboard extends React.Component {
 			const parseData = {
 				uid: data.user.uid,
 				name: data.user.displayName,
-				email: data.user.email
+				email: data.user.email,
+				avatar: data.user.photoURL
 			};
 			createUser(parseData);
+			getUserInfo(data.user.uid);
 		}
 
 		var str = await JSON.stringify(events);
@@ -155,7 +157,11 @@ class Dashboard extends React.Component {
 			autoDismiss: 3
 		};
 		this.notificationAlert.current.notificationAlert(options);
-		this.setState({ auth: false });
+		this.setState({
+			auth: false,
+			avatar:
+				'https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png'
+		});
 	}
 
 	render() {
