@@ -39,12 +39,13 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // create a new user with using Google Auth's uid, name and email
 app.post('/users', async (req, res) => {
 	try {
-		console.log("POST /users");
-		const { uid, name, email } = req.body;
+		console.log('POST /users');
+		const { uid, name, email, avatar } = req.body;
 		let postData = {
 			[uid]: {
-				name : name,
-				email: email
+				name: name,
+				email: email,
+				avatar: avatar
 			}
 		};
 		let response = {
@@ -61,13 +62,13 @@ app.post('/users', async (req, res) => {
 // Get a list of all users
 app.get('/users', async (req, res) => {
 	try {
-		console.log("GET /users");
+		console.log('GET /users');
 		const usersRef = db.ref(`/data/users`);
 		let usersSnapshot = await usersRef.once('value');
 		let usersData = usersSnapshot.val();
 		let response = [];
 		for (let key in usersData) {
-			let keyObj = { "uid": key};
+			let keyObj = { uid: key };
 			let obj = Object.assign(keyObj, usersData[key]);
 			response.push(obj);
 		}
@@ -78,15 +79,18 @@ app.get('/users', async (req, res) => {
 });
 
 // Get a specific users object by his uid
-app.get('/users/uid', async (req, res) => {
+app.post('/users/uid', async (req, res) => {
 	try {
-		console.log("GET /users/uid");
-		const uid = req.headers['uid'];
+		console.log('GET /users/uid');
+		const uid = req.body.uid;
 		const usersRef = db.ref(`/data/users`);
-		let usersSnapshot = await usersRef.orderByKey().equalTo(uid).once('value');
+		let usersSnapshot = await usersRef
+			.orderByKey()
+			.equalTo(uid)
+			.once('value');
 		if (usersSnapshot.exists()) {
 			let usersData = usersSnapshot.val();
-			let keyObj = { "uid": uid};
+			let keyObj = { uid: uid };
 			let response = Object.assign(keyObj, usersData[uid]);
 			res.send(response);
 		} else {
@@ -97,19 +101,26 @@ app.get('/users/uid', async (req, res) => {
 	}
 });
 
-
 ///////////
 // EVENTS
 ///////////
 // Create a new event. owner and attendees reference user_uid's
 app.post('/events', async (req, res) => {
 	try {
-		console.log("POST /events");
-		const { title, description, location, owner, start_time, end_time, attendees } = req.body;
+		console.log('POST /events');
+		const {
+			title,
+			description,
+			location,
+			owner,
+			start_time,
+			end_time,
+			attendees
+		} = req.body;
 		let eventID = makeid();
 		const eventsRef = db.ref('/data/events');
 		let eventsData = {
-			[eventID] : {
+			[eventID]: {
 				title: title,
 				description: description,
 				location: location,
@@ -120,7 +131,7 @@ app.post('/events', async (req, res) => {
 			}
 		};
 		await eventsRef.update(eventsData);
-		let response = {"id" : eventID};
+		let response = { id: eventID };
 		res.send(response);
 	} catch (e) {
 		res.sendStatus(400).send(e);
@@ -130,13 +141,13 @@ app.post('/events', async (req, res) => {
 // Get a list of all events
 app.get('/events', async (req, res) => {
 	try {
-		console.log("GET /events");
+		console.log('GET /events');
 		const eventsRef = db.ref(`/data/events`);
 		let eventsSnapshot = await eventsRef.once('value');
 		var eventsData = eventsSnapshot.val();
 		let response = [];
 		for (let key in eventsData) {
-			let keyObj = { "id": key};
+			let keyObj = { id: key };
 			let obj = Object.assign(keyObj, eventsData[key]);
 			response.push(obj);
 		}
@@ -149,13 +160,16 @@ app.get('/events', async (req, res) => {
 // Get a specific event by it's id
 app.get('/events/id', async (req, res) => {
 	try {
-		console.log("GET /events/id");
+		console.log('GET /events/id');
 		const id = req.headers['id'];
 		const eventsRef = db.ref(`/data/events`);
-		let eventsSnapshot = await eventsRef.orderByKey().equalTo(id).once('value');
+		let eventsSnapshot = await eventsRef
+			.orderByKey()
+			.equalTo(id)
+			.once('value');
 		if (eventsSnapshot.exists()) {
 			let eventData = eventsSnapshot.val();
-			let keyObj = { "id": id};
+			let keyObj = { id: id };
 			let response = Object.assign(keyObj, eventData[id]);
 			res.send(response);
 		} else {
@@ -170,13 +184,16 @@ app.get('/events/id', async (req, res) => {
 app.get('/events/owner', async (req, res) => {
 	try {
 		const uid = req.headers['uid'];
-		console.log("GET /events/owner : ", uid);
+		console.log('GET /events/owner : ', uid);
 		const eventsRef = db.ref(`/data/events`);
-		let eventsSnapshot = await eventsRef.orderByChild("owner").equalTo(uid).once('value');
+		let eventsSnapshot = await eventsRef
+			.orderByChild('owner')
+			.equalTo(uid)
+			.once('value');
 		let eventsData = eventsSnapshot.val();
 		let response = [];
 		for (let key in eventsData) {
-			let keyObj = { "id": key};
+			let keyObj = { id: key };
 			let obj = Object.assign(keyObj, eventsData[key]);
 			response.push(obj);
 		}
@@ -190,22 +207,22 @@ app.get('/events/owner', async (req, res) => {
 app.get('/events/attendee', async (req, res) => {
 	try {
 		const uid = req.headers['uid'];
-		console.log("GET /events/attendee : ", uid);
+		console.log('GET /events/attendee : ', uid);
 		const eventsRef = db.ref(`/data/events`);
 		let eventsSnapshot = await eventsRef.once('value');
 		let eventsData = eventsSnapshot.val();
 		let response = [];
 		for (let key in eventsData) {
-			let event  = eventsData[key];
-			if (event["owner"] == uid) {
-				let keyObj = { "id": key};
+			let event = eventsData[key];
+			if (event['owner'] == uid) {
+				let keyObj = { id: key };
 				let obj = Object.assign(keyObj, eventsData[key]);
 				response.push(obj);
 				continue;
 			}
-			for (var i = 0; i < event["attendees"].length; i++) {
-				if (event["attendees"][i] == uid) {
-					let keyObj = { "id": key};
+			for (var i = 0; i < event['attendees'].length; i++) {
+				if (event['attendees'][i] == uid) {
+					let keyObj = { id: key };
 					let obj = Object.assign(keyObj, eventsData[key]);
 					response.push(obj);
 					break;
@@ -222,19 +239,20 @@ app.get('/events/attendee', async (req, res) => {
 app.delete('/events/id', async (req, res) => {
 	try {
 		const id = req.headers['id'];
-		console.log("DELETE /events/id : ", id);
-		let path = "/data/events/" + id;
+		console.log('DELETE /events/id : ', id);
+		let path = '/data/events/' + id;
 		const eventRef = db.ref(path);
 		let eventSnapshot = await eventRef.once('value');
 		if (eventSnapshot.exists()) {
-			await eventRef.remove()
+			await eventRef
+				.remove()
 				.then(function() {
-					console.log("Remove succeeded.")
+					console.log('Remove succeeded.');
 				})
 				.catch(function(error) {
-					console.log("Remove failed: " + error.message)
+					console.log('Remove failed: ' + error.message);
 				});
-			res.send("Success");
+			res.send('Success');
 		} else {
 			res.sendStatus(404).send();
 		}
@@ -242,8 +260,6 @@ app.delete('/events/id', async (req, res) => {
 		res.sendStatus(400).send(e);
 	}
 });
-
-
 
 function makeid() {
 	var text = '';
