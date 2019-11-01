@@ -26,11 +26,49 @@ export async function createUser(data) {
 	postRequest('/users', {
 		uid: data.uid,
 		name: data.name,
-		email: data.email
+		email: data.email,
+		avatar: data.avatar
 	})
 		.then(res => {
 			const code = res.code;
 			console.log(code);
+			return true;
 		})
 		.catch(err => console.log(err));
 }
+
+export async function getUserInfo(uid) {
+	// Example postRequest with data. Replace static with form input
+	postRequest('/users/uid', {
+		uid: uid
+	})
+		.then(res => {
+			const code = res;
+			console.log(code);
+			return res;
+		})
+		.catch(err => console.log(err));
+}
+
+const data = {
+	name: 'sample',
+	email: 'sample',
+	avatar: 'sample',
+	friendsList: [
+		{
+			name: 'sample',
+			email: 'sample',
+			avatar: 'sample'
+		},
+		{
+			name: 'sample',
+			email: 'sample',
+			avatar: 'sample'
+		},
+		{
+			name: 'sample',
+			email: 'sample',
+			avatar: 'sample'
+		}
+	]
+};
