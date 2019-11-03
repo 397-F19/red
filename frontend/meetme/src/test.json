@@ -1,0 +1,8 @@
+[
+  {"name": "Chem", 
+    "desc": "fun times",
+    "people" : ["Aaron Kaneti", "Danyil Pysmak"],
+    "location": "tech", 
+    "time": "11:00 - 11:50"
+  }
+]
