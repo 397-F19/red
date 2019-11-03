@@ -138,7 +138,7 @@ class Tables extends React.Component {
 														<td>{item.location}</td>
 														<td>{item.start_time}</td>
 														<td>{item.end_time}</td>
-														<td>{this.state.displayName}</td>
+														<td>{item.owner}</td>
 														<td className='text-right'>
 															{item.attendees.map(item => `${item}, `)}
 														</td>
