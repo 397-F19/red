@@ -28,21 +28,21 @@ class AddEvents extends React.Component {
 		};
 	}
 
-	componentDidMount() {
-		let friendListObject = JSON.parse(localStorage.getItem('friendsList'));
-		console.log(Object.values(friendListObject));
+	componentWillMount() {
+		let friendsListObject = JSON.parse(localStorage.getItem('friendsList'));
 		let tempList = [];
-		Object.values(friendListObject)
+		let nameUIDList = {};
+		Object.values(friendsListObject)
 			.slice(1)
 			.forEach(item => {
 				tempList.push(item.name);
+				nameUIDList[item.name] = [item.uid];
 			});
 		this.setState({
 			friendsList: tempList
 		});
 	}
 
-	componentWillUpdate() {}
 	onChange = friendsInvited => {
 		this.setState({ friendsInvited });
 	};
@@ -75,14 +75,26 @@ class AddEvents extends React.Component {
 		}
 		let start = new Date(this.state.start_time);
 		let end = new Date(this.state.end_time);
+		let attendeeUID = [];
+		let friendsListObject = Object.values(
+			JSON.parse(localStorage.getItem('friendsList'))
+		);
+		this.state.friendsInvited.forEach(item => {
+			friendsListObject.forEach(friend => {
+				if (friend.name === item) {
+					attendeeUID.push(friend.uid);
+				}
+			});
+		});
 		const data = {
 			title: this.state.title,
 			description: this.state.description,
 			location: this.state.location,
-			owner: owner,
+			owner,
 			start_time: start.toString(),
 			end_time: end.toString(),
-			attendees: this.state.friendsInvited
+			attendees: this.state.friendsInvited,
+			attendeeUID
 		};
 		console.log(data);
 		const res = await createEvent(data);

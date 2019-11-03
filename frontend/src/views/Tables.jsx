@@ -1,7 +1,6 @@
 import React from 'react';
-import { deleteEvent, getUserEvents } from '../apis';
-
 // reactstrap components
+import randomstring from 'randomstring';
 import {
 	Card,
 	CardHeader,
@@ -12,13 +11,11 @@ import {
 	Col,
 	Button
 } from 'reactstrap';
-import { grabEvents, deleteEvent } from '../apis';
+import { grabEvents, deleteEvent, getUserEvents } from '../apis';
 
 /*
 	Use getUserEvents('/events/attendee',localStorage.getItem('uid')) to retreive the user's events (attending + owned)
 	Use getUserEvents('/events/owner',localStorage.getItem('uid')) to retreive user's events that they own specifically
-	Use deleteEvent('/events/id', ID_OF_EVENT) to delete the event from the database. You can only do this if you own the event.
-
 */
 
 class Tables extends React.Component {
@@ -26,6 +23,7 @@ class Tables extends React.Component {
 		super(props);
 		this.state = {
 			eventList: [],
+			attendEventList: [],
 			uid: localStorage.getItem('uid') || '',
 			auth: JSON.parse(localStorage.getItem('auth')) || false
 		};
@@ -37,12 +35,14 @@ class Tables extends React.Component {
 
 	prework = async () => {
 		let eventList = [];
+		let attendEventList = [];
 		let displayName = localStorage.getItem('displayName');
 		if (this.state.auth) {
 			eventList = await grabEvents(this.state.uid);
+			attendEventList = await getUserEvents(this.state.uid);
 		}
-		console.log(eventList);
-		this.setState({ eventList, displayName });
+		console.log(eventList, attendEventList);
+		this.setState({ eventList, displayName, attendEventList });
 	};
 
 	deleteEvent = async id => {
@@ -63,7 +63,7 @@ class Tables extends React.Component {
 						<Col md='12'>
 							<Card>
 								<CardHeader>
-									<CardTitle tag='h4'>My Events</CardTitle>
+									<CardTitle tag='h4'>Events created by me</CardTitle>
 								</CardHeader>
 								<CardBody>
 									<Table responsive>
@@ -111,7 +111,7 @@ class Tables extends React.Component {
 						<Col md='12'>
 							<Card className='card-plain'>
 								<CardHeader>
-									<CardTitle tag='h4'>Attending Events</CardTitle>
+									<CardTitle tag='h4'>Attending events</CardTitle>
 									<p className='card-category'>
 										These are events filtered based on your personal calendar.
 									</p>
@@ -123,30 +123,28 @@ class Tables extends React.Component {
 												<th>Title</th>
 												<th>Description</th>
 												<th>Location</th>
-												<th>Time</th>
+												<th>Start</th>
+												<th>End</th>
 												<th>Owner</th>
 												<th className='text-right'>Attendees</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>Dinner</td>
-												<td>blabla</td>
-												<td>Shang Noodle</td>
-												<td>20/10/2019 18:00 PM</td>
-												<td>blabla</td>
-												<td className='text-right'>Bradley, Terry</td>
-											</tr>
-											<tr>
-												<td>Study</td>
-												<td>blabla</td>
-												<td>Core D Main Lib</td>
-												<td>20/10/2019 11:00 AM</td>
-												<td>blabla</td>
-												<td className='text-right'>
-													Bradley, Aaron, Danyil, Amulya, Terry
-												</td>
-											</tr>
+											{this.state.attendEventList.map(item => {
+												return (
+													<tr key={randomstring.generate(5)}>
+														<td>{item.title}</td>
+														<td>{item.description}</td>
+														<td>{item.location}</td>
+														<td>{item.start_time}</td>
+														<td>{item.end_time}</td>
+														<td>{this.state.displayName}</td>
+														<td className='text-right'>
+															{item.attendees.map(item => `${item}, `)}
+														</td>
+													</tr>
+												);
+											})}
 										</tbody>
 									</Table>
 								</CardBody>

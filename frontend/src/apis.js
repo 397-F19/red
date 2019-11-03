@@ -1,3 +1,4 @@
+import axios from 'axios';
 var client = require('./client');
 
 export async function getRequest(route) {
@@ -21,34 +22,13 @@ export async function postRequest(route, data = null) {
 	}
 }
 
-
-export async function getUserEvents(route, user) {
-	const res = await client.get(route, { 'headers': {'uid': user }});
+export async function getUserEvents(uid) {
+	const res = await axios.get('/events/attendee', { headers: { uid } });
 	if (res.status !== 200) {
 		throw Error(res.message);
 	}
+	console.log(res);
 	return res.data;
-}
-
-export async function getUserFriends(route, user) {
-	const res = await client.get(route, { 'headers': {'uid': user }});
-	if (res.status !== 200) {
-		throw Error(res.message);
-	}
-	return res.data;
-}
-
-export async function deleteEvent(route, event_id) {
-	if (!data) {
-		throw Error('Cannot send post request without data');
-	} else {
-		const res = client.delete(route, { 'headers': { 'id': event_id } });
-
-		if (res.status !== 200) {
-			throw Error(res.message);
-		}
-		return res.data;
-	}
 }
 
 export async function createUser(data) {
@@ -76,10 +56,13 @@ export async function addFriend(data) {
 		.then(res => {
 			const code = res;
 			console.log(code);
-			if (code === 'success') {
+			if (code.res === 'success') {
 				alert('You have successfully added your friend!');
+				let friendsList = JSON.parse(localStorage.getItem('friendsList'));
+				friendsList.push(res.data);
+				localStorage.setItem('friendsList', JSON.stringify(friendsList));
 			} else {
-				alert(code);
+				alert('You friend has not registered!');
 			}
 		})
 		.catch(err => console.log(err));
@@ -107,7 +90,8 @@ export async function createEvent(data) {
 		owner: data.owner,
 		start_time: data.start_time,
 		end_time: data.end_time,
-		attendees: data.attendees
+		attendees: data.attendees,
+		attendeeUID: data.attendeeUID
 	})
 		.then(res => {
 			const code = res;
@@ -150,26 +134,3 @@ export async function deleteEvent(id) {
 		console.log(e);
 	}
 }
-
-const data = {
-	name: 'sample',
-	email: 'sample',
-	avatar: 'sample',
-	friendsList: [
-		{
-			name: 'sample',
-			email: 'sample',
-			avatar: 'sample'
-		},
-		{
-			name: 'sample',
-			email: 'sample',
-			avatar: 'sample'
-		},
-		{
-			name: 'sample',
-			email: 'sample',
-			avatar: 'sample'
-		}
-	]
-};

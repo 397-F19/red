@@ -43,41 +43,31 @@ app.post('/users', async (req, res) => {
 	try {
 		console.log('POST /users');
 		const { uid, name, email, avatar } = req.body;
+
 		const friendsRef = db.ref(`/data/users/${uid}/friends`);
 		let friendsSnapshot = await friendsRef.once('value');
 		let friendsList = friendsSnapshot.val();
-		if (!friendsList) {
-			let postData = {
-				[uid]: {
-					name: name,
-					email: email,
-					avatar: avatar,
-					friends: ['test']
-				}
-			};
-			let response = {
-				uid: uid
-			};
-			var ref = db.ref('/data/users');
-			await ref.update(postData);
-			res.send(response);
-		} else {
-			let postData = {
-				[uid]: {
-					name: name,
-					email: email,
-					avatar: avatar,
-					friends: friendsList
-				}
-			};
-			let response = {
-				uid,
-				friendsList
-			};
-			var ref = db.ref('/data/users');
-			await ref.update(postData);
-			res.send(response);
-		}
+
+		const eventsRef = db.ref(`/data/users/${uid}/eventsList`);
+		let eventsSnapshot = await eventsRef.once('value');
+		let eventsList = eventsSnapshot.val();
+
+		let postData = {
+			[uid]: {
+				name: name,
+				email: email,
+				avatar: avatar,
+				friends: friendsList || ['placeholder'],
+				eventsList: eventsList || ['placeholder']
+			}
+		};
+		let response = {
+			uid,
+			friendsList
+		};
+		var ref = db.ref('/data/users');
+		await ref.update(postData);
+		res.send(response);
 	} catch (e) {
 		console.log(e);
 		res.sendStatus(400);
@@ -110,17 +100,18 @@ app.post('/add/friend', async (req, res) => {
 				});
 				if (!isExisted) {
 					let friendObject = {
+						uid: key,
 						avatar: usersData[key].avatar,
 						email: usersData[key].email,
 						name: usersData[key].name
 					};
 					friendsList.push(friendObject);
 					await friendsRef.update(friendsList);
-					res.send('success');
+					res.send({ res: 'success', data: friendObject });
 				}
 			}
 		}
-		res.send('You friend has not registered!');
+		res.send('error');
 	} catch (e) {
 		res.sendStatus(400);
 	}
@@ -182,19 +173,21 @@ app.post('/events', async (req, res) => {
 			owner,
 			start_time,
 			end_time,
-			attendees
+			attendees,
+			attendeeUID
 		} = req.body;
 		let eventID = makeid();
 		const eventsRef = db.ref('/data/events');
 		let eventsData = {
 			[eventID]: {
-				title: title,
-				description: description,
-				location: location,
-				owner: owner,
-				start_time: start_time,
-				end_time: end_time,
-				attendees: attendees
+				title,
+				description,
+				location,
+				owner,
+				start_time,
+				end_time,
+				attendees,
+				attendeeUID
 			}
 		};
 		await eventsRef.update(eventsData);
@@ -270,32 +263,26 @@ app.get('/events/owner', async (req, res) => {
 	}
 });
 
-// Get a list of events where a user with user_uid is an attendee or owner
+// Get a list of events where a user with user_uid is an attendee
 app.get('/events/attendee', async (req, res) => {
 	try {
 		const uid = req.headers['uid'];
 		console.log('GET /events/attendee : ', uid);
 		const eventsRef = db.ref(`/data/events`);
 		let eventsSnapshot = await eventsRef.once('value');
-		let eventsData = eventsSnapshot.val();
 		let response = [];
-		for (let key in eventsData) {
-			let event = eventsData[key];
-			if (event['owner'] == uid) {
-				let keyObj = { id: key };
-				let obj = Object.assign(keyObj, eventsData[key]);
-				response.push(obj);
-				continue;
-			}
-			for (var i = 0; i < event['attendees'].length; i++) {
-				if (event['attendees'][i] == uid) {
-					let keyObj = { id: key };
-					let obj = Object.assign(keyObj, eventsData[key]);
-					response.push(obj);
-					break;
+		Object.values(eventsSnapshot.val()).forEach(item => {
+			// if (item.attendeeUID.contains(uid)) {
+			// 	response.push(item);
+			// }
+			item.attendeeUID.forEach(attendee => {
+				if (attendee === uid) {
+					response.push(item);
 				}
-			}
-		}
+			});
+		});
+
+		console.log('response', response);
 		res.send(response);
 	} catch (e) {
 		res.sendStatus(400);
