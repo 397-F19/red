@@ -4,7 +4,8 @@
 // import Typography from 'views/Typography.jsx';
 import TableList from 'views/Tables.jsx';
 import UserPage from 'views/User.jsx';
-import AddEvents from 'views/AddEvents';
+import AddEvents from 'views/AddEvents.jsx';
+import AddFriends from 'views/AddFriends.jsx';
 
 var routes = [
 	{
@@ -22,19 +23,19 @@ var routes = [
 		layout: '/admin'
 	},
 	{
+		path: '/add-friends',
+		name: 'Add friends',
+		icon: 'nc-icon nc-circle-10',
+		component: AddFriends,
+		layout: '/admin'
+	},
+	{
 		path: '/user-page',
 		name: 'User Profile',
-		icon: 'nc-icon nc-single-02',
+		icon: 'nc-icon nc-badge',
 		component: UserPage,
 		layout: '/admin'
 	}
-	// {
-	// 	path: '/icons',
-	// 	name: 'Icons',
-	// 	icon: 'nc-icon nc-diamond',
-	// 	component: Icons,
-	// 	layout: '/admin'
-	// },
 	// {
 	// 	path: '/notifications',
 	// 	name: 'Notifications',

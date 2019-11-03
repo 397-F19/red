@@ -17,7 +17,7 @@ const config = require('../firebaseKey.json');
 firebase.initializeApp(config);
 const auth = firebase.auth();
 var db = firebase.database();
-var ref = db.ref('/data');
+// var ref = db.ref('/data');
 
 class Dashboard extends React.Component {
 	constructor(props) {
@@ -34,6 +34,7 @@ class Dashboard extends React.Component {
 	}
 
 	componentDidMount() {
+		localStorage.removeItem('uid');
 		if (navigator.platform.indexOf('Win') > -1) {
 			ps = new PerfectScrollbar(this.mainPanel.current);
 			document.body.classList.toggle('perfect-scrollbar-on');
@@ -63,14 +64,11 @@ class Dashboard extends React.Component {
 		localStorage.setItem('photoURL', state.user.photoURL);
 		localStorage.setItem('auth', state.auth);
 		localStorage.setItem('uid', state.user.uid);
-
-		return;
 	};
 
 	signInWithGoogle = async () => {
 		const googleAuthProvider = await new firebase.auth.GoogleAuthProvider();
 		let success = true;
-		let events = [];
 
 		const data = await auth.signInWithPopup(googleAuthProvider).catch(error => {
 			console.log(error);
@@ -80,51 +78,31 @@ class Dashboard extends React.Component {
 		this.setState({
 			userData: data,
 			auth: true,
-			avatar: data.user.photoURL
+			avatar: data.user.photoURL,
+			owner: data.user.uid
 		});
 
 		if (success) {
-			//update database
-			// let snapshot = await firebase
-			// 	.database()
-			// 	.ref('/data/users/' + data.user.uid)
-			// 	.once('value');
-			// if (!snapshot.val()) {
-			// 	console.log('no snapshot');
-			// 	var updates = {};
-			// 	var updateData = {
-			// 		email: data.user.email,
-			// 		username: data.user.displayName,
-			// 		curEventId: 5
-			// 	};
-			// 	updates['/' + data.user.uid] = updateData;
-			// 	localStorage.setItem('curEventId', 5);
-			// } else {
-			// 	localStorage.setItem('curEventId', snapshot.val().curEventId);
-			// }
 			const parseData = {
 				uid: data.user.uid,
 				name: data.user.displayName,
 				email: data.user.email,
 				avatar: data.user.photoURL
 			};
-			createUser(parseData);
-			getUserInfo(data.user.uid);
+			await createUser(parseData);
+			// getUserInfo(data.user.uid);
 		}
 
-		var str = await JSON.stringify(events);
-		await localStorage.setItem('events', str);
 		const state = {
 			user: {
 				photoURL: data.user.photoURL,
 				displayName: data.user.displayName,
 				email: data.user.email,
-				uid: data.user.uid,
-				events: events
+				uid: data.user.uid
 			},
 			auth: true
 		};
-		this.saveState(state);
+		await this.saveState(state);
 		console.log('success content is: ' + success);
 		console.log('events localStorage', localStorage.getItem('events'));
 		var options = {
@@ -162,6 +140,10 @@ class Dashboard extends React.Component {
 			avatar:
 				'https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png'
 		});
+	}
+
+	updateFriendsList(friendsList) {
+		this.setState(friendsList);
 	}
 
 	render() {
