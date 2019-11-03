@@ -32,14 +32,16 @@ class AddEvents extends React.Component {
 		let friendsListObject = JSON.parse(localStorage.getItem('friendsList'));
 		let tempList = [];
 		let nameUIDList = {};
-		Object.values(friendsListObject)
-			.slice(1)
-			.forEach(item => {
-				tempList.push(item.name);
-				nameUIDList[item.name] = [item.uid];
-			});
+		if (friendsListObject) {
+			Object.values(friendsListObject)
+				.slice(1)
+				.forEach(item => {
+					tempList.push(item.name);
+					nameUIDList[item.name] = [item.uid];
+				});
+		}
 		this.setState({
-			friendsList: tempList
+			friendsList: tempList || []
 		});
 	}
 

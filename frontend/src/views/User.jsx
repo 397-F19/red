@@ -37,17 +37,19 @@ class User extends React.Component {
 		let email = localStorage.getItem('email');
 		let avatar = localStorage.getItem('photoURL');
 		let tempList = [];
-		Object.values(friendsListObject)
-			.slice(1)
-			.forEach(item => {
-				tempList.push(item);
-			});
-		console.log('tempList', tempList);
+		if (friendsListObject) {
+			Object.values(friendsListObject)
+				.slice(1)
+				.forEach(item => {
+					tempList.push(item);
+				});
+			console.log('tempList', tempList);
+		}
 		this.setState({
-			friendsList: tempList,
-			email,
-			name,
-			avatar
+			friendsList: tempList || [],
+			email: email || '',
+			name: name || '',
+			avatar: avatar || ''
 		});
 	}
 	sendEmail(item) {
