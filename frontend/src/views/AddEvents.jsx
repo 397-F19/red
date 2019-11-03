@@ -24,11 +24,23 @@ class AddEvents extends React.Component {
 			dropdownOpen: false,
 			color: 'transparent',
 			friendsInvited: [],
-			friendsList: localStorage.getItem('friendsList') || []
+			friendsList: []
 		};
 	}
 
-	componentDidMount() {}
+	componentDidMount() {
+		let friendListObject = JSON.parse(localStorage.getItem('friendsList'));
+		console.log(Object.values(friendListObject));
+		let tempList = [];
+		Object.values(friendListObject)
+			.slice(1)
+			.forEach(item => {
+				tempList.push(item.name);
+			});
+		this.setState({
+			friendsList: tempList
+		});
+	}
 
 	componentWillUpdate() {}
 	onChange = friendsInvited => {
@@ -55,24 +67,30 @@ class AddEvents extends React.Component {
 		this.setState({ location: e.target.value });
 	};
 
-	createButton = () => {
+	createButton = async () => {
 		let owner = localStorage.getItem('uid');
 		if (!owner) {
 			alert('Please login!');
 			return;
 		}
+		let start = new Date(this.state.start_time);
+		let end = new Date(this.state.end_time);
 		const data = {
 			title: this.state.title,
 			description: this.state.description,
 			location: this.state.location,
 			owner: owner,
-			start_time: this.state.start_time,
-			end_time: this.state.end_time,
+			start_time: start.toString(),
+			end_time: end.toString(),
 			attendees: this.state.friendsInvited
 		};
-		const res = createEvent(data);
-		if (res) {
-			alert('Your event is successfully created');
+		console.log(data);
+		const res = await createEvent(data);
+		console.log(res);
+		if (!res) {
+			alert('Please input the information correctly!');
+		} else {
+			alert('Your event is successfully created!');
 		}
 	};
 
@@ -161,14 +179,7 @@ class AddEvents extends React.Component {
 														value={this.state.friendsInvited}
 														onChange={this.onChange}
 														// import the friends list into 'suggestions'
-														/* Use "getUserInfo(localStorage.getItem('uid'))" to retreive the user object, access user's list of friends. parse their names, not uids */
-														suggestions={[
-															'Bradley Matthew Ramos',
-															'Aaron Kaneti',
-															"Danyil 'Dan' Pysmak",
-															'Amulya Angajala',
-															'Terry Tan'
-														]}
+														suggestions={this.state.friendsList}
 													/>
 												</FormGroup>
 											</Col>

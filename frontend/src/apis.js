@@ -61,7 +61,8 @@ export async function createUser(data) {
 	})
 		.then(res => {
 			console.log(res);
-			localStorage.setItem('friendsList', res.friendsList);
+			let friendsListString = JSON.stringify(res.friendsList);
+			localStorage.setItem('friendsList', friendsListString);
 			return res;
 		})
 		.catch(err => console.log(err));
@@ -75,7 +76,11 @@ export async function addFriend(data) {
 		.then(res => {
 			const code = res;
 			console.log(code);
-			return res;
+			if (code === 'success') {
+				alert('You have successfully added your friend!');
+			} else {
+				alert(code);
+			}
 		})
 		.catch(err => console.log(err));
 }
@@ -94,7 +99,8 @@ export async function getUserInfo(uid) {
 
 export async function createEvent(data) {
 	// Example postRequest with data. Replace static with form input
-	postRequest('/events', {
+	let success = true;
+	await postRequest('/events', {
 		title: data.title,
 		description: data.description,
 		location: data.location,
@@ -108,7 +114,41 @@ export async function createEvent(data) {
 			console.log(code);
 			return true;
 		})
-		.catch(err => console.log(err));
+		.catch(err => {
+			console.log(err);
+			success = false;
+		});
+	return success;
+}
+
+export async function grabEvents(uid) {
+	// Example postRequest with data. Replace static with form input
+	let returnList = [];
+	try {
+		await getRequest('/events').then(res => {
+			const eventList = res;
+			console.log(eventList);
+			eventList.forEach(async item => {
+				if (item.owner === uid) {
+					await returnList.push(item);
+				}
+			});
+		});
+		console.log(returnList);
+		return returnList;
+	} catch (e) {
+		console.log(e);
+	}
+}
+
+export async function deleteEvent(id) {
+	try {
+		await axios.delete('/events/id', { headers: { id } }).then(res => {
+			console.log(res);
+		});
+	} catch (e) {
+		console.log(e);
+	}
 }
 
 const data = {

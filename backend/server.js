@@ -95,22 +95,32 @@ app.post('/add/friend', async (req, res) => {
 		let usersSnapshot = await usersRef.once('value');
 		let usersData = usersSnapshot.val();
 		let friendUID = '';
+		let isExisted = false;
 		for (let key in usersData) {
 			if (usersData[key].email === email) {
 				console.log(key);
 				const friendsRef = db.ref(`/data/users/${uid}/friends`);
 				let friendsSnapshot = await friendsRef.once('value');
 				let friendsList = friendsSnapshot.val();
-				let friendObject = {
-					avatar: usersData[key].avatar,
-					email: usersData[key].email,
-					name: usersData[key].name
-				};
-				friendsList.push(friendObject);
-				await friendsRef.update(friendsList);
-				res.send('success');
+				await Object.values(friendsList).forEach(item => {
+					if (item.email === email) {
+						res.send('You friend is existed in your list!');
+						isExisted = true;
+					}
+				});
+				if (!isExisted) {
+					let friendObject = {
+						avatar: usersData[key].avatar,
+						email: usersData[key].email,
+						name: usersData[key].name
+					};
+					friendsList.push(friendObject);
+					await friendsRef.update(friendsList);
+					res.send('success');
+				}
 			}
 		}
+		res.send('You friend has not registered!');
 	} catch (e) {
 		res.sendStatus(400);
 	}

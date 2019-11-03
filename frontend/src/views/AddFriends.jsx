@@ -35,7 +35,6 @@ class AddFriends extends React.Component {
 		}
 		let ownerEmail = localStorage.getItem('email');
 		let inputEmail = this.state.inputEmail.trim();
-		console.log(`${ownerEmail} + ${inputEmail}`);
 		if (ownerEmail === inputEmail) {
 			alert("You can't add yourself");
 			return;
@@ -44,11 +43,8 @@ class AddFriends extends React.Component {
 			email: this.state.inputEmail,
 			uid: owner
 		};
-		const res = await addFriend(data);
-		console.log(res);
-		// if (1) {
-		// 	alert('You have successfully added your friend!');
-		// }
+		await addFriend(data);
+		this.setState({ inputEmail: '' });
 	};
 
 	render() {
@@ -68,10 +64,10 @@ class AddFriends extends React.Component {
 												<FormGroup>
 													<label>Your friend's email address</label>
 													<Input
-														defaultValue=''
 														placeholder='Enter here'
 														type='text'
 														onChange={this.onChangeFriendEmail}
+														value={this.state.inputEmail}
 													/>
 												</FormGroup>
 											</Col>

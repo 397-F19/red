@@ -34,11 +34,22 @@ class Dashboard extends React.Component {
 	}
 
 	componentDidMount() {
-		localStorage.removeItem('uid');
 		if (navigator.platform.indexOf('Win') > -1) {
 			ps = new PerfectScrollbar(this.mainPanel.current);
 			document.body.classList.toggle('perfect-scrollbar-on');
 		}
+		let displayName = localStorage.getItem('displayName');
+		let email = localStorage.getItem('email');
+		let photoURL = localStorage.getItem('photoURL');
+		let auth = localStorage.getItem('auth');
+		let uid = localStorage.getItem('uid');
+		this.setState({
+			displayName,
+			email,
+			avatar: photoURL,
+			auth,
+			uid
+		});
 	}
 	componentWillUnmount() {
 		if (navigator.platform.indexOf('Win') > -1) {
@@ -140,6 +151,11 @@ class Dashboard extends React.Component {
 			avatar:
 				'https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png'
 		});
+		localStorage.removeItem('displayName');
+		localStorage.removeItem('email');
+		localStorage.removeItem('photoURL');
+		localStorage.removeItem('auth');
+		localStorage.removeItem('uid');
 	}
 
 	updateFriendsList(friendsList) {
