@@ -1,4 +1,6 @@
 import React from 'react';
+import { deleteEvent, getUserEvents } from '../apis';
+import axios from 'axios';
 
 // reactstrap components
 import {
@@ -11,6 +13,12 @@ import {
 	Col,
 	Button
 } from 'reactstrap';
+
+
+axios.create({
+	baseURL: 'localhost:5000',
+	/* other custom settings */
+});
 
 class Tables extends React.Component {
 	render() {
@@ -40,18 +48,14 @@ class Tables extends React.Component {
 											<tr>
 												<td>Dinner</td>
 												<td>
-													blablaasdasd asdadfsd fsfsfsfdsfsfsdfsd sblablaasda
-													sdasdadfsdfsf sfsfdsfsfsdfs dsblabl aasd asda
-													sdadfsdfs fsfsfdsfsfsd fsdsblablaas dasdasdadfsdf
-													sfsfsfdsfsf sdfsdsb lab laasdasdasd adfsd fsfsfsfd
-													sfsfsd fsds
+													blablaasdasd
 												</td>
 												<td>Shang Noodle</td>
 												<td>20/10/2019 18:00 PM</td>
 												<td>blabla</td>
 												<td className="text-right">Bradley, Terry</td>
 												<td>
-													<Button color="primary">Delete</Button>
+													<Button onClick={() => console.log(getUserEvents('/events/attendee',localStorage.getItem('uid')))} color="primary">Delete</Button>
 												</td>
 											</tr>
 											<tr>
