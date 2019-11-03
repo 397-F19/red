@@ -15,6 +15,13 @@ import {
 	Col
 } from 'reactstrap';
 
+/*
+	Use "getUserInfo(localStorage.getItem('uid'))" to retreive the user object
+	Use getUserFriends(/friends/uid, localStorage.getItem('uid')) to retreive the user's list of friends.
+
+*/
+
+
 class User extends React.Component {
 	render() {
 		return (

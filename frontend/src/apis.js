@@ -23,7 +23,15 @@ export async function postRequest(route, data = null) {
 
 
 export async function getUserEvents(route, user) {
-	const res = await client.get(route, { 'headers': { 'uid': user } });
+	const res = await client.get(route, { 'headers': {'uid': user }});
+	if (res.status !== 200) {
+		throw Error(res.message);
+	}
+	return res.data;
+}
+
+export async function getUserFriends(route, user) {
+	const res = await client.get(route, { 'headers': {'uid': user }});
 	if (res.status !== 200) {
 		throw Error(res.message);
 	}

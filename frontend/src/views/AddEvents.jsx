@@ -161,6 +161,7 @@ class AddEvents extends React.Component {
 														value={this.state.friendsInvited}
 														onChange={this.onChange}
 														// import the friends list into 'suggestions'
+														/* Use "getUserInfo(localStorage.getItem('uid'))" to retreive the user object, access user's list of friends. parse their names, not uids */
 														suggestions={[
 															'Bradley Matthew Ramos',
 															'Aaron Kaneti',

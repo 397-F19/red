@@ -21,6 +21,7 @@ firebase.initializeApp(serviceAccount);
 var db = firebase.database();
 const port = process.env.PORT || 5000;
 const app = express();
+var cors = require('cors');
 
 // Setting up middleware for retrieving data from front-end
 app.use(
@@ -29,6 +30,7 @@ app.use(
 	})
 );
 app.use(bodyParser.json());
+app.use(cors());
 
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));

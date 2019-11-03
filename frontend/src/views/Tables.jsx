@@ -1,6 +1,5 @@
 import React from 'react';
 import { deleteEvent, getUserEvents } from '../apis';
-import axios from 'axios';
 
 // reactstrap components
 import {
@@ -14,11 +13,13 @@ import {
 	Button
 } from 'reactstrap';
 
+/*
+	Use getUserEvents('/events/attendee',localStorage.getItem('uid')) to retreive the user's events (attending + owned)
+	Use getUserEvents('/events/owner',localStorage.getItem('uid')) to retreive user's events that they own specifically
+	Use deleteEvent('/events/id', ID_OF_EVENT) to delete the event from the database. You can only do this if you own the event.
 
-axios.create({
-	baseURL: 'localhost:5000',
-	/* other custom settings */
-});
+*/
+
 
 class Tables extends React.Component {
 	render() {
@@ -55,7 +56,7 @@ class Tables extends React.Component {
 												<td>blabla</td>
 												<td className="text-right">Bradley, Terry</td>
 												<td>
-													<Button onClick={() => console.log(getUserEvents('/events/attendee',localStorage.getItem('uid')))} color="primary">Delete</Button>
+													<Button color="primary">Delete</Button>
 												</td>
 											</tr>
 											<tr>
