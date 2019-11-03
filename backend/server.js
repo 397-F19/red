@@ -41,21 +41,76 @@ app.post('/users', async (req, res) => {
 	try {
 		console.log('POST /users');
 		const { uid, name, email, avatar } = req.body;
-		let postData = {
-			[uid]: {
-				name: name,
-				email: email,
-				avatar: avatar
-			}
-		};
-		let response = {
-			uid: uid
-		};
-		var ref = db.ref('/data/users');
-		await ref.update(postData);
-		res.send(response);
+		const friendsRef = db.ref(`/data/users/${uid}/friends`);
+		let friendsSnapshot = await friendsRef.once('value');
+		let friendsList = friendsSnapshot.val();
+		if (!friendsList) {
+			let postData = {
+				[uid]: {
+					name: name,
+					email: email,
+					avatar: avatar,
+					friends: ['test']
+				}
+			};
+			let response = {
+				uid: uid
+			};
+			var ref = db.ref('/data/users');
+			await ref.update(postData);
+			res.send(response);
+		} else {
+			let postData = {
+				[uid]: {
+					name: name,
+					email: email,
+					avatar: avatar,
+					friends: friendsList
+				}
+			};
+			let response = {
+				uid,
+				friendsList
+			};
+			var ref = db.ref('/data/users');
+			await ref.update(postData);
+			res.send(response);
+		}
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		console.log(e);
+		res.sendStatus(400);
+	}
+});
+
+// Add friend
+app.post('/add/friend', async (req, res) => {
+	try {
+		console.log('POST /add/friend');
+		const { email, uid } = req.body;
+
+		// find person with that exact email account
+		const usersRef = db.ref(`/data/users`);
+		let usersSnapshot = await usersRef.once('value');
+		let usersData = usersSnapshot.val();
+		let friendUID = '';
+		for (let key in usersData) {
+			if (usersData[key].email === email) {
+				console.log(key);
+				const friendsRef = db.ref(`/data/users/${uid}/friends`);
+				let friendsSnapshot = await friendsRef.once('value');
+				let friendsList = friendsSnapshot.val();
+				let friendObject = {
+					avatar: usersData[key].avatar,
+					email: usersData[key].email,
+					name: usersData[key].name
+				};
+				friendsList.push(friendObject);
+				await friendsRef.update(friendsList);
+				res.send('success');
+			}
+		}
+	} catch (e) {
+		res.sendStatus(400);
 	}
 });
 
@@ -74,7 +129,7 @@ app.get('/users', async (req, res) => {
 		}
 		res.send(response);
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		res.sendStatus(400);
 	}
 });
 
@@ -97,7 +152,7 @@ app.post('/users/uid', async (req, res) => {
 			res.sendStatus(404).send();
 		}
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		res.sendStatus(400);
 	}
 });
 
@@ -134,7 +189,7 @@ app.post('/events', async (req, res) => {
 		let response = { id: eventID };
 		res.send(response);
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		res.sendStatus(400);
 	}
 });
 
@@ -153,7 +208,7 @@ app.get('/events', async (req, res) => {
 		}
 		res.send(response);
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		res.sendStatus(400);
 	}
 });
 
@@ -176,7 +231,7 @@ app.get('/events/id', async (req, res) => {
 			res.sendStatus(404).send();
 		}
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		res.sendStatus(400);
 	}
 });
 
@@ -199,7 +254,7 @@ app.get('/events/owner', async (req, res) => {
 		}
 		res.send(response);
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		res.sendStatus(400);
 	}
 });
 
@@ -231,7 +286,7 @@ app.get('/events/attendee', async (req, res) => {
 		}
 		res.send(response);
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		res.sendStatus(400);
 	}
 });
 
@@ -254,10 +309,10 @@ app.delete('/events/id', async (req, res) => {
 				});
 			res.send('Success');
 		} else {
-			res.sendStatus(404).send();
+			res.sendStatus(404);
 		}
 	} catch (e) {
-		res.sendStatus(400).send(e);
+		res.sendStatus(400);
 	}
 });
 

@@ -30,15 +30,27 @@ export async function createUser(data) {
 		avatar: data.avatar
 	})
 		.then(res => {
-			const code = res.code;
+			console.log(res);
+			localStorage.setItem('friendsList', res.friendsList);
+			return res;
+		})
+		.catch(err => console.log(err));
+}
+
+export async function addFriend(data) {
+	postRequest('/add/friend', {
+		email: data.email,
+		uid: data.uid
+	})
+		.then(res => {
+			const code = res;
 			console.log(code);
-			return true;
+			return res;
 		})
 		.catch(err => console.log(err));
 }
 
 export async function getUserInfo(uid) {
-	// Example postRequest with data. Replace static with form input
 	postRequest('/users/uid', {
 		uid: uid
 	})
@@ -46,6 +58,25 @@ export async function getUserInfo(uid) {
 			const code = res;
 			console.log(code);
 			return res;
+		})
+		.catch(err => console.log(err));
+}
+
+export async function createEvent(data) {
+	// Example postRequest with data. Replace static with form input
+	postRequest('/events', {
+		title: data.title,
+		description: data.description,
+		location: data.location,
+		owner: data.owner,
+		start_time: data.start_time,
+		end_time: data.end_time,
+		attendees: data.attendees
+	})
+		.then(res => {
+			const code = res;
+			console.log(code);
+			return true;
 		})
 		.catch(err => console.log(err));
 }
