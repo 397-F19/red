@@ -76,45 +76,41 @@ app.post('/users', async (req, res) => {
 
 // Add friend
 app.post('/add/friend', async (req, res) => {
-	try {
-		console.log('POST /add/friend');
-		const { email, uid } = req.body;
+	console.log('POST /add/friend');
+	const { email, uid } = req.body;
 
-		// find person with that exact email account
-		const usersRef = db.ref(`/data/users`);
-		let usersSnapshot = await usersRef.once('value');
-		let usersData = usersSnapshot.val();
-		let friendUID = '';
-		let isExisted = false;
-		for (let key in usersData) {
-			if (usersData[key].email === email) {
-				console.log(key);
-				const friendsRef = db.ref(`/data/users/${uid}/friends`);
-				let friendsSnapshot = await friendsRef.once('value');
-				let friendsList = friendsSnapshot.val();
-				await Object.values(friendsList).forEach(item => {
-					if (item.email === email) {
-						res.send('You friend is existed in your list!');
-						isExisted = true;
-					}
-				});
-				if (!isExisted) {
-					let friendObject = {
-						uid: key,
-						avatar: usersData[key].avatar,
-						email: usersData[key].email,
-						name: usersData[key].name
-					};
-					friendsList.push(friendObject);
-					await friendsRef.update(friendsList);
-					res.send({ res: 'success', data: friendObject });
+	// find person with that exact email account
+	const usersRef = db.ref(`/data/users`);
+	let usersSnapshot = await usersRef.once('value');
+	let usersData = usersSnapshot.val();
+	let friendUID = '';
+	let isExisted = false;
+	for (let key in usersData) {
+		if (usersData[key].email === email) {
+			console.log(key);
+			const friendsRef = db.ref(`/data/users/${uid}/friends`);
+			let friendsSnapshot = await friendsRef.once('value');
+			let friendsList = friendsSnapshot.val();
+			await Object.values(friendsList).forEach(item => {
+				if (item.email === email) {
+					res.send('You friend is existed in your list!');
+					isExisted = true;
 				}
+			});
+			if (!isExisted) {
+				let friendObject = {
+					uid: key,
+					avatar: usersData[key].avatar,
+					email: usersData[key].email,
+					name: usersData[key].name
+				};
+				friendsList.push(friendObject);
+				await friendsRef.update(friendsList);
+				res.send({ res: 'success', data: friendObject });
 			}
 		}
-		res.send('error');
-	} catch (e) {
-		res.sendStatus(400);
 	}
+	res.send('error');
 });
 
 // Get a list of all users
