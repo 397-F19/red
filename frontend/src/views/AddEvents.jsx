@@ -1,5 +1,5 @@
 import React from 'react';
-
+import firebase from 'firebase';
 // reactstrap components
 import {
 	Button,
@@ -99,7 +99,7 @@ class AddEvents extends React.Component {
 			attendeeUID
 		};
 		console.log(data);
-		const res = await createEvent(data);
+		const res = await createEvent(firebase, data);
 		console.log(res);
 		if (!res) {
 			alert('Please input the information correctly!');

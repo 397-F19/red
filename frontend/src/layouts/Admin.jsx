@@ -10,14 +10,12 @@ import Sidebar from 'components/Sidebar/Sidebar.jsx';
 
 import routes from 'routes.js';
 import NotificationAlert from 'react-notification-alert';
-import { createUser, getUserInfo } from '../apis';
+import { createUser, signin, grabEvents, getUserEvents } from '../apis';
 
 var ps;
 const config = require('../firebaseKey.json');
 firebase.initializeApp(config);
 const auth = firebase.auth();
-var db = firebase.database();
-// var ref = db.ref('/data');
 
 class Dashboard extends React.Component {
 	constructor(props) {
@@ -78,43 +76,37 @@ class Dashboard extends React.Component {
 	};
 
 	signInWithGoogle = async () => {
-		const googleAuthProvider = await new firebase.auth.GoogleAuthProvider();
-		let success = true;
-
-		const data = await auth.signInWithPopup(googleAuthProvider).catch(error => {
-			console.log(error);
-			success = false;
-		});
-		console.log(data);
+		const res = await signin(firebase);
+		console.log(res.data);
 		this.setState({
-			userData: data,
+			userData: res.data,
 			auth: true,
-			avatar: data.user.photoURL,
-			owner: data.user.uid
+			avatar: res.data.user.photoURL,
+			owner: res.data.user.uid
 		});
 
-		if (success) {
+		if (res.success) {
 			const parseData = {
-				uid: data.user.uid,
-				name: data.user.displayName,
-				email: data.user.email,
-				avatar: data.user.photoURL
+				uid: res.data.user.uid,
+				name: res.data.user.displayName,
+				email: res.data.user.email,
+				avatar: res.data.user.photoURL
 			};
-			await createUser(parseData);
+			await createUser(firebase, parseData);
 			// getUserInfo(data.user.uid);
 		}
 
 		const state = {
 			user: {
-				photoURL: data.user.photoURL,
-				displayName: data.user.displayName,
-				email: data.user.email,
-				uid: data.user.uid
+				photoURL: res.data.user.photoURL,
+				displayName: res.data.user.displayName,
+				email: res.data.user.email,
+				uid: res.data.user.uid
 			},
 			auth: true
 		};
 		await this.saveState(state);
-		console.log('success content is: ' + success);
+		console.log('success content is: ' + res.success);
 		console.log('events localStorage', localStorage.getItem('events'));
 		var options = {
 			place: 'tr',
@@ -128,8 +120,21 @@ class Dashboard extends React.Component {
 			autoDismiss: 3
 		};
 		this.notificationAlert.current.notificationAlert(options);
+		await this.prework();
+		window.location.reload();
+		return res.success;
+	};
 
-		return success;
+	prework = async () => {
+		let eventList = [];
+		let attendEventList = [];
+		let displayName = localStorage.getItem('displayName');
+		if (this.state.auth) {
+			eventList = await grabEvents(firebase, this.state.uid);
+			attendEventList = await getUserEvents(firebase, this.state.uid);
+		}
+		console.log(attendEventList);
+		this.setState({ eventList, displayName, attendEventList });
 	};
 
 	logout() {
@@ -156,6 +161,7 @@ class Dashboard extends React.Component {
 		localStorage.removeItem('photoURL');
 		localStorage.removeItem('auth');
 		localStorage.removeItem('uid');
+		window.location.reload();
 	}
 
 	updateFriendsList(friendsList) {

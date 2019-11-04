@@ -267,13 +267,16 @@ app.get('/events/attendee', async (req, res) => {
 		const eventsRef = db.ref(`/data/events`);
 		let eventsSnapshot = await eventsRef.once('value');
 		let response = [];
-		Object.values(eventsSnapshot.val()).forEach(item => {
-			// if (item.attendeeUID.contains(uid)) {
-			// 	response.push(item);
-			// }
-			item.attendeeUID.forEach(attendee => {
+		await Object.values(eventsSnapshot.val()).forEach(async item => {
+			await item.attendeeUID.forEach(async attendee => {
 				if (attendee === uid) {
-					response.push(item);
+					let usersSnapshot = await db
+						.ref(`/data/users/${item.owner}`)
+						.once('value');
+					let userData = await usersSnapshot.val();
+					console.log(userData, new Date());
+					item.owner = await userData.name;
+					await response.push(item);
 				}
 			});
 		});

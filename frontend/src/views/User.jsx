@@ -1,6 +1,6 @@
 import React from 'react';
 import randomstring from 'randomstring';
-
+import firebase from 'firebase';
 // reactstrap components
 import {
 	Button,

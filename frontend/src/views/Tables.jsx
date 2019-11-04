@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from 'firebase';
 // reactstrap components
 import randomstring from 'randomstring';
 import {
@@ -38,17 +39,17 @@ class Tables extends React.Component {
 		let attendEventList = [];
 		let displayName = localStorage.getItem('displayName');
 		if (this.state.auth) {
-			eventList = await grabEvents(this.state.uid);
-			attendEventList = await getUserEvents(this.state.uid);
+			eventList = await grabEvents(firebase, this.state.uid);
+			attendEventList = await getUserEvents(firebase, this.state.uid);
 		}
-		console.log(eventList, attendEventList);
+		console.log(attendEventList);
 		this.setState({ eventList, displayName, attendEventList });
 	};
 
 	deleteEvent = async id => {
 		if (window.confirm(`Are you sure to delete this event?`)) {
 			let tempList = this.state.eventList.filter(item => item.id !== id);
-			await deleteEvent(id);
+			await deleteEvent(firebase, id);
 			this.setState((prevState, props) => ({
 				eventList: tempList
 			}));
@@ -138,7 +139,7 @@ class Tables extends React.Component {
 														<td>{item.location}</td>
 														<td>{item.start_time}</td>
 														<td>{item.end_time}</td>
-														<td>{this.state.displayName}</td>
+														<td>{item.owner}</td>
 														<td className='text-right'>
 															{item.attendees.map(item => `${item}, `)}
 														</td>
