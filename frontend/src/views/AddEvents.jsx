@@ -88,23 +88,35 @@ class AddEvents extends React.Component {
 				}
 			});
 		});
-		const data = {
-			title: this.state.title,
-			description: this.state.description,
-			location: this.state.location,
-			owner,
-			start_time: start.toString(),
-			end_time: end.toString(),
-			attendees: this.state.friendsInvited,
-			attendeeUID
-		};
-		console.log(data);
-		const res = await createEvent(firebase, data);
-		console.log(res);
-		if (!res) {
-			alert('Please input the information correctly!');
+		if (
+			!this.state.title ||
+			!this.state.description ||
+			!this.state.location ||
+			!this.state.start_time ||
+			!this.state.end_time ||
+			!this.state.attendees ||
+			attendeeUID.length === 0
+		) {
+			alert('Please enter all the fields!');
 		} else {
-			alert('Your event is successfully created!');
+			const data = {
+				title: this.state.title,
+				description: this.state.description,
+				location: this.state.location,
+				owner,
+				start_time: start.toString(),
+				end_time: end.toString(),
+				attendees: this.state.friendsInvited,
+				attendeeUID
+			};
+			console.log(data);
+			const res = await createEvent(firebase, data);
+			console.log(res);
+			if (!res) {
+				alert('Please input the information correctly!');
+			} else {
+				alert('Your event is successfully created!');
+			}
 		}
 	};
 
