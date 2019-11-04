@@ -94,8 +94,7 @@ class AddEvents extends React.Component {
 			!this.state.location ||
 			!this.state.start_time ||
 			!this.state.end_time ||
-			!this.state.attendees ||
-			attendeeUID.length === 0
+			this.state.friendsInvited.length === 0
 		) {
 			alert('Please enter all the fields!');
 		} else {

@@ -78,12 +78,6 @@ class Dashboard extends React.Component {
 	signInWithGoogle = async () => {
 		const res = await signin(firebase);
 		console.log(res.data);
-		this.setState({
-			userData: res.data,
-			auth: true,
-			avatar: res.data.user.photoURL,
-			owner: res.data.user.uid
-		});
 
 		if (res.success) {
 			const parseData = {
@@ -120,6 +114,12 @@ class Dashboard extends React.Component {
 			autoDismiss: 3
 		};
 		this.notificationAlert.current.notificationAlert(options);
+		this.setState({
+			userData: res.data,
+			auth: true,
+			avatar: res.data.user.photoURL,
+			owner: res.data.user.uid
+		});
 		await this.prework();
 		window.location.reload();
 		return res.success;
