@@ -62,9 +62,9 @@ class Tables extends React.Component {
 				<div className='content'>
 					<Row>
 						<Col md='12'>
-							<Card>
+							<Card className='card-plain'>
 								<CardHeader>
-									<CardTitle tag='h4'>Events created by me</CardTitle>
+									<CardTitle tag='h4'>My Events</CardTitle>
 								</CardHeader>
 								<CardBody>
 									<Table responsive>
@@ -77,7 +77,7 @@ class Tables extends React.Component {
 												<th>End</th>
 												<th>Owner</th>
 												<th className='text-right'>Attendees</th>
-												<th>Action</th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -91,11 +91,16 @@ class Tables extends React.Component {
 														<td>{item.end_time}</td>
 														<td>{this.state.displayName}</td>
 														<td className='text-right'>
-															{item.attendees.map(item => `${item}, `)}
+															{item.attendees.map(item => `${item}, \n`)}
 														</td>
 														<td>
 															<Button
 																color='primary'
+															>
+																Edit
+															</Button>
+															<Button
+																color='danger'
 																onClick={() => this.deleteEvent(item.id)}
 															>
 																Delete
@@ -109,12 +114,11 @@ class Tables extends React.Component {
 								</CardBody>
 							</Card>
 						</Col>
-						<Col md='12'>
-							<Card className='card-plain'>
+						<Card className='card-plain'>
 								<CardHeader>
-									<CardTitle tag='h4'>Attending events</CardTitle>
+									<CardTitle tag='h4'>Invited Events</CardTitle>
 									<p className='card-category'>
-										These are events filtered based on your personal calendar.
+										These Invited Events are filtered by your calendar
 									</p>
 								</CardHeader>
 								<CardBody>
@@ -141,7 +145,60 @@ class Tables extends React.Component {
 														<td>{item.end_time}</td>
 														<td>{item.owner}</td>
 														<td className='text-right'>
-															{item.attendees.map(item => `${item}, `)}
+															{item.attendees.map(item => `${item}, \n`)}
+														</td>
+														<td>
+															<Button
+																color='success'
+															>
+																Accept
+															</Button>
+															<Button
+																color='danger'
+																onClick={() => this.deleteEvent(item.id)}
+															>
+																Reject
+															</Button>
+															</td>
+													</tr>
+												);
+											})}
+										</tbody>
+									</Table>
+								</CardBody>
+							</Card>
+						<Col md='12'>
+							<Card className='card-plain'>
+								<CardHeader>
+									<CardTitle tag='h4'>Attending Events</CardTitle>
+									<p className='card-category'>
+									</p>
+								</CardHeader>
+								<CardBody>
+									<Table responsive>
+										<thead className='text-primary'>
+											<tr>
+												<th>Title</th>
+												<th>Description</th>
+												<th>Location</th>
+												<th>Start</th>
+												<th>End</th>
+												<th>Owner</th>
+												<th className='text-right'>Attendees</th>
+											</tr>
+										</thead>
+										<tbody>
+											{this.state.attendEventList.map(item => {
+												return (
+													<tr key={randomstring.generate(5)}>
+														<td>{item.title}</td>
+														<td>{item.description}</td>
+														<td>{item.location}</td>
+														<td>{item.start_time}</td>
+														<td>{item.end_time}</td>
+														<td>{item.owner}</td>
+														<td className='text-right'>
+															{item.attendees.map(item => `${item}, \n`)}
 														</td>
 													</tr>
 												);
@@ -150,6 +207,7 @@ class Tables extends React.Component {
 									</Table>
 								</CardBody>
 							</Card>
+							
 						</Col>
 					</Row>
 				</div>

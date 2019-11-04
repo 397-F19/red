@@ -78,6 +78,7 @@ class AddFriends extends React.Component {
 												<Button
 													className='btn-round'
 													color='primary'
+													size = 'lg'
 													onClick={() => this.addButton()}
 												>
 													Add!

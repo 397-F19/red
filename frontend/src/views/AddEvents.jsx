@@ -137,7 +137,7 @@ class AddEvents extends React.Component {
 													<label>Title</label>
 													<Input
 														defaultValue=''
-														placeholder='What are you going to be doing?'
+														placeholder='What do you want to do?'
 														type='text'
 														onChange={this.onChangeTitle}
 													/>
@@ -148,7 +148,7 @@ class AddEvents extends React.Component {
 													<label>Description</label>
 													<Input
 														defaultValue=''
-														placeholder='Describe your event a little so your friends understand it.'
+														placeholder='What are all the details your friends need to know?'
 														type='text'
 														onChange={this.onChangeDesc}
 													/>
@@ -160,7 +160,7 @@ class AddEvents extends React.Component {
 												<FormGroup>
 													<label>Start Time</label>
 													<Input
-														defaultValue='2019-10-20T10:30:00'
+														defaultValue='2019-11-04T13:30:00'
 														id='example-datetime-local-input'
 														type='datetime-local'
 														onChange={this.onChangeStartTime}
@@ -173,7 +173,7 @@ class AddEvents extends React.Component {
 												<FormGroup>
 													<label>End Time</label>
 													<Input
-														defaultValue='2019-10-20T10:30:00'
+														defaultValue='2019-11-04T15:30:00'
 														id='example-datetime-local-input'
 														type='datetime-local'
 														onChange={this.onChangeEndTime}
@@ -186,7 +186,7 @@ class AddEvents extends React.Component {
 												<FormGroup>
 													<label>Location</label>
 													<Input
-														placeholder='Please provide the event address'
+														placeholder='Where is the event?'
 														type='text'
 														onChange={this.onChangeLocation}
 													/>
@@ -197,8 +197,7 @@ class AddEvents extends React.Component {
 											<Col className='pr-1' md='12'>
 												<FormGroup>
 													<label>
-														Type friends' names to invite (Choose from the
-														dropdown menu!)
+														Type friends' names to invite!
 													</label>
 													<Chips
 														value={this.state.friendsInvited}
@@ -214,6 +213,7 @@ class AddEvents extends React.Component {
 												<Button
 													className='btn-round'
 													color='primary'
+													size='lg'
 													onClick={() => this.createButton()}
 												>
 													Create event!

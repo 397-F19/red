@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
 		super(props);
 		this.state = {
 			backgroundColor: 'black',
-			activeColor: 'info',
+			activeColor: 'primary',
 			auth: false,
 			avatar:
 				'https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png'
