@@ -1,5 +1,5 @@
 import React from 'react';
-
+import firebase from 'firebase';
 // reactstrap components
 import {
 	Button,
@@ -43,7 +43,7 @@ class AddFriends extends React.Component {
 			email: this.state.inputEmail,
 			uid: owner
 		};
-		await addFriend(data);
+		await addFriend(firebase, data);
 		this.setState({ inputEmail: '' });
 	};
 
