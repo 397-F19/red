@@ -197,8 +197,8 @@ class AddEvents extends React.Component {
 											<Col className='pr-1' md='12'>
 												<FormGroup>
 													<label>
-														Type friends' names to invite (Enter anyone from
-														group Red to try it out!)
+														Type friends' names to invite (Choose from the
+														dropdown menu!)
 													</label>
 													<Chips
 														value={this.state.friendsInvited}
