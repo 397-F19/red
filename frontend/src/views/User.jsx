@@ -53,7 +53,7 @@ class User extends React.Component {
 		});
 	}
 	sendEmail(item) {
-		window.location.href = `mailto:${item.email}?subject=I have invited you to a new event!&body=Hi, ${item.name}!%0D%0A%0D%0AChect you MeetMe app to receive the invitation!%0D%0A%0D%0A${this.state.name}`;
+		window.location.href = `mailto:${item.email}?subject=I have invited you to a new event!&body=Hi, ${item.name}!%0D%0A%0D%0ACheck you MeetMe app to receive the invitation!%0D%0A%0D%0A${this.state.name}`;
 	}
 	render() {
 		return (
