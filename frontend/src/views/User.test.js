@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import UserPage from './Restaurant';
 
 const friends = [
@@ -17,6 +17,7 @@ const friends = [
 	}
 ];
 const key = 'friendList';
+let sendAction = jest.fn();
 
 describe('UserPage', () => {
 	it('display userpage', () => {
@@ -26,5 +27,13 @@ describe('UserPage', () => {
 
 		const elem = getByTestId('UserPage1');
 		expect(elem.innerHTML).toBe('Your friends');
+	});
+
+	it('send invitation', () => {
+		const { getByTestId } = render(
+			<UserPage key={key} friendsList={friends} dropdownOpen={true} />
+		);
+		fireEvent.click(getByTestId('sendInvitation'));
+		expect(sendAction).toHaveBeenCalledTimes(1);
 	});
 });

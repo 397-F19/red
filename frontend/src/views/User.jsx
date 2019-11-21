@@ -97,7 +97,9 @@ class User extends React.Component {
 						<Col md='8'>
 							<Card>
 								<CardHeader>
-									<CardTitle tag='h4'>My Friends</CardTitle>
+									<CardTitle tag='h4' data-testid='UserPage1'>
+										Your friends
+									</CardTitle>
 								</CardHeader>
 								<CardBody>
 									<ul className='list-unstyled team-members'>
@@ -127,6 +129,7 @@ class User extends React.Component {
 																outline
 																size='sm'
 																onClick={() => this.sendEmail(item)}
+																data-testid='sendInvitation'
 															>
 																<i className='fa fa-envelope' />
 															</Button>
