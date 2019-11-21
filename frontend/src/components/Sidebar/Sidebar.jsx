@@ -50,21 +50,21 @@ class Sidebar extends React.Component {
 	render() {
 		return (
 			<div
-				className="sidebar"
+				className='sidebar'
 				data-color={this.props.bgColor}
 				data-active-color={this.props.activeColor}
 			>
-				<div className="logo">
-					<a href="#" className="simple-text logo-mini">
-						<div className="logo-img">
-							<i className="fa fa-heart heart" />
+				<div className='logo'>
+					<a href='#' className='simple-text logo-mini'>
+						<div className='logo-img'>
+							<i className='fa fa-heart heart' />
 						</div>
 					</a>
-					<a href="#" className="simple-text logo-normal">
+					<a href='#' className='simple-text logo-normal'>
 						MeetMe
 					</a>
 				</div>
-				<div className="sidebar-wrapper" ref={this.sidebar}>
+				<div className='sidebar-wrapper' ref={this.sidebar}>
 					<Nav>
 						{this.props.routes.map((prop, key) => {
 							return (
@@ -77,8 +77,8 @@ class Sidebar extends React.Component {
 								>
 									<NavLink
 										to={prop.layout + prop.path}
-										className="nav-link"
-										activeClassName="active"
+										className='nav-link'
+										activeClassName='active'
 									>
 										<i className={prop.icon} />
 										<p>{prop.name}</p>
